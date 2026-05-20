@@ -337,6 +337,36 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
       </div>
     </div>
     <div class="week-grid" id="plan-week-grid"></div>
+
+    <!-- ITEMS THIS WEEK -->
+    <div style="background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;margin-bottom:1rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div>
+          <span style="font-size:14px;font-weight:500">Items this week</span>
+          <span style="font-size:12px;color:var(--text3);margin-left:8px">snacks, drinks, household — goes straight to shopping list</span>
+        </div>
+      </div>
+      <div id="week-items-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px"></div>
+      <div class="freeform-row">
+        <input type="text" id="week-item-input" placeholder="Add an item... (e.g. Hot Cheetos bag)" onkeydown="if(event.key==='Enter')addWeekItem()">
+        <select id="week-item-cat">
+          <option value="snack">Snack</option>
+          <option value="produce">Produce</option>
+          <option value="protein">Protein</option>
+          <option value="dairy">Dairy</option>
+          <option value="grains">Grains</option>
+          <option value="drinks">Drinks</option>
+          <option value="household">Household</option>
+          <option value="other">Other</option>
+        </select>
+        <button class="btn btn-sm btn-primary" onclick="addWeekItem()">Add</button>
+      </div>
+      <div style="margin-top:8px">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Or pick from saved items:</div>
+        <div id="week-saved-items-row" style="display:flex;flex-wrap:wrap;gap:5px"></div>
+      </div>
+    </div>
+
     <div class="submit-bar">
       <p id="submit-bar-msg"></p>
       <button class="btn btn-green" onclick="submitWeek()" id="submit-btn">Submit week</button>
@@ -652,6 +682,7 @@ function renderPlan(){
   const submitted=week.submitted;
   document.getElementById('submit-bar-msg').textContent=submitted?'Plan submitted — edit anytime and resubmit to update shopping list.':'Plan your meals above, then submit to generate the shopping list.';
   document.getElementById('submit-btn').textContent=submitted?'Resubmit week':'Submit week';
+  renderWeekItemsPanel();
 }
 function openPicker(day){
   pickerDay=day;
@@ -758,9 +789,10 @@ function renderShopping(){
   const content=document.getElementById('shopping-content');
   if(!week||!week.submitted){content.innerHTML='<div class="empty-state">Submit a weekly plan to generate the shopping list.</div>';return;}
   const allEntries=Object.values(week.plan||{}).flat();
-  if(!allEntries.length){content.innerHTML='<div class="empty-state">No meals planned this week.</div>';return;}
+  const weekItems=week.weekItems||[];
+  if(!allEntries.length&&!weekItems.length){content.innerHTML='<div class="empty-state">No meals planned this week.</div>';return;}
 
-  // Aggregate from recipe ingredients
+  // Aggregate from recipe ingredients + day items + week items
   const aggr={};
   allEntries.forEach(entry=>{
     if(entry.type==='recipe'){
@@ -772,11 +804,16 @@ function renderShopping(){
         aggr[key].entries.push({qty:ing.qty,unit:ing.unit});
       });
     } else if(entry.type==='item'){
-      // Direct items go straight to shopping list
       const key=entry.name.toLowerCase().trim();
       if(!aggr[key])aggr[key]={name:entry.name,entries:[],shopCat:entry.category||getShopCat(entry.name)};
       if(entry.qty)aggr[key].entries.push({qty:entry.qty,unit:''});
     }
+  });
+  // Add week-level items
+  (week.weekItems||[]).forEach(item=>{
+    const key=item.name.toLowerCase().trim();
+    if(!aggr[key])aggr[key]={name:item.name,entries:[],shopCat:item.category||getShopCat(item.name)};
+    if(item.qty)aggr[key].entries.push({qty:item.qty,unit:''});
   });
 
   function getShopCat(n){
@@ -842,6 +879,66 @@ async function copyWeek(fromKey){
   const wk=getWeekKey();const from=weeks[fromKey];
   weeks[wk]={week_key:wk,plan:JSON.parse(JSON.stringify(from.plan||{})),notes:JSON.parse(JSON.stringify(from.notes||{})),submitted:false,shopping:{}};
   await saveWeek(wk);switchTab('plan');
+}
+
+/* ---- WEEK ITEMS PANEL ---- */
+function renderWeekItemsPanel(){
+  const wk=getWeekKey();
+  const week=getWeek(wk);
+  const weekItems=week.weekItems||[];
+
+  // Render added items as removable chips
+  const list=document.getElementById('week-items-list');
+  if(list){
+    list.innerHTML=weekItems.length
+      ?weekItems.map((item,idx)=>`
+        <div style="display:inline-flex;align-items:center;gap:5px;background:var(--blue-bg);border:0.5px solid rgba(55,138,221,0.3);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--blue-text)">
+          <span>${item.name}${item.qty?' ('+item.qty+')':''}</span>
+          <button onclick="removeWeekItem(${idx})" style="background:none;border:none;cursor:pointer;color:var(--blue-text);font-size:14px;line-height:1;padding:0 0 0 2px">×</button>
+        </div>`).join('')
+      :'<span style="font-size:12px;color:var(--text3)">Nothing added yet</span>';
+  }
+
+  // Render saved items as quick picks
+  const row=document.getElementById('week-saved-items-row');
+  if(row){
+    row.innerHTML=savedItems.map(item=>`
+      <button onclick="addWeekItemFromSaved('${item.id}')" class="quick-pick">${item.name}</button>
+    `).join('');
+  }
+}
+
+async function addWeekItem(){
+  const input=document.getElementById('week-item-input');
+  const name=input.value.trim();if(!name)return;
+  const cat=document.getElementById('week-item-cat').value;
+  // Save to items library if new
+  const existing=savedItems.find(x=>x.name.toLowerCase()===name.toLowerCase());
+  let item=existing;
+  if(!existing){item=await saveItem(name,cat);renderItems();}
+  if(!item)return;
+  const wk=getWeekKey();if(!weeks[wk])weeks[wk]=getWeek(wk);
+  if(!weeks[wk].weekItems)weeks[wk].weekItems=[];
+  weeks[wk].weekItems.push({id:item.id,name:item.name,category:item.category,qty:item.qty||''});
+  input.value='';
+  renderWeekItemsPanel();schedSave(wk);
+}
+
+function addWeekItemFromSaved(iid){
+  const item=savedItems.find(x=>x.id===iid);if(!item)return;
+  const wk=getWeekKey();if(!weeks[wk])weeks[wk]=getWeek(wk);
+  if(!weeks[wk].weekItems)weeks[wk].weekItems=[];
+  // Don't add duplicates
+  if(weeks[wk].weekItems.find(x=>x.id===iid))return;
+  weeks[wk].weekItems.push({id:item.id,name:item.name,category:item.category,qty:item.qty||''});
+  renderWeekItemsPanel();schedSave(wk);
+}
+
+function removeWeekItem(idx){
+  const wk=getWeekKey();
+  if(!weeks[wk]||!weeks[wk].weekItems)return;
+  weeks[wk].weekItems.splice(idx,1);
+  renderWeekItemsPanel();schedSave(wk);
 }
 
 function render(){renderRecipes();}
