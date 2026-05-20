@@ -61,7 +61,9 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
 .tag-quick{background:var(--green-bg);color:var(--green-text)}.tag-slow{background:var(--amber-bg);color:var(--amber-text)}
 .tag-lunch{background:#EAF3DE;color:#27500A}.tag-pasta{background:var(--coral-bg);color:var(--coral-text)}
 .tag-soup{background:#F1EFE8;color:#444}.tag-snack{background:var(--purple-bg);color:var(--purple-text)}
-.tag-other{background:var(--bg2);color:var(--text2)}
+.tag-other{background:var(--bg2);color:var(--text2)}.tag-drinks{background:var(--blue-bg);color:var(--blue-text)}
+.tag-household{background:#F1EFE8;color:#444}.tag-produce{background:#EAF3DE;color:#27500A}
+.tag-dairy{background:var(--amber-bg);color:var(--amber-text)}.tag-grains{background:var(--coral-bg);color:var(--coral-text)}
 .card-actions{position:absolute;top:8px;right:8px;display:flex;gap:3px}
 .icon-btn{background:none;border:0.5px solid var(--border);cursor:pointer;color:var(--text3);font-size:12px;padding:2px 7px;border-radius:4px;font-family:var(--font)}
 .icon-btn:hover{color:var(--text);background:var(--bg2);border-color:var(--border2)}.icon-btn.del:hover{color:var(--red);border-color:var(--red)}
@@ -81,9 +83,23 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
 .staple-toggle{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text3);white-space:nowrap;cursor:pointer}
 .staple-toggle input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--green);flex:none}
 .form-actions{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap}
-.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:1rem}
+
+/* Trip config bar */
+.trip-config{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.trip-config .form-group{margin:0}
+.trip-config label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px}
+.trip-config input[type=text],.trip-config input[type=date]{font-size:14px;padding:6px 10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:var(--font)}
+.trip-config input[type=text]{width:220px}.trip-config input[type=date]{width:160px}
+.day-count-ctrl{display:flex;align-items:center;gap:8px}
+.day-count-ctrl button{width:28px;height:28px;border-radius:50%;border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font)}
+.day-count-ctrl button:hover{background:var(--bg2)}
+.day-count-ctrl span{font-size:14px;font-weight:500;min-width:20px;text-align:center}
+
+/* Week grid */
+.week-grid{display:grid;gap:6px;margin-bottom:1rem}
 .day-col{display:flex;flex-direction:column;gap:4px}
-.day-label{font-size:11px;font-weight:500;color:var(--text2);text-align:center;padding-bottom:4px;border-bottom:0.5px solid var(--border)}
+.day-label{font-size:11px;font-weight:500;color:var(--text2);text-align:center;padding-bottom:4px;border-bottom:0.5px solid var(--border);line-height:1.4}
+.day-label .day-name{font-size:10px;color:var(--text3)}
 .day-slot{min-height:72px;background:var(--bg2);border-radius:var(--radius);border:0.5px solid var(--border);padding:5px;display:flex;flex-direction:column;gap:3px}
 .planned-meal{background:var(--bg);border:0.5px solid var(--border);border-radius:5px;padding:4px 6px;font-size:11px;display:flex;justify-content:space-between;align-items:flex-start;gap:2px;line-height:1.3}
 .planned-meal.is-item{border-color:rgba(55,138,221,0.3);background:var(--blue-bg)}
@@ -106,22 +122,31 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
 .picker-item{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:7px 9px;font-size:12px;cursor:pointer;transition:border-color .15s;line-height:1.4}
 .picker-item:hover{border-color:var(--blue);color:var(--blue-text)}
 .picker-item .item-sub{color:var(--text3);font-size:11px}
-.quick-picks{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.quick-pick{font-size:12px;padding:4px 10px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
-.quick-pick:hover{border-color:var(--blue);color:var(--blue-text)}
-.freeform-row{display:flex;gap:6px;margin-top:8px}
-.freeform-row input{flex:1;padding:7px 10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px}
+.freeform-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.freeform-row input{flex:1;min-width:140px;padding:7px 10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px}
 .freeform-row input:focus{outline:none;border-color:var(--blue)}
 .freeform-row select{padding:7px 8px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px}
+.quick-pick{font-size:12px;padding:4px 10px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
+.quick-pick:hover{border-color:var(--blue);color:var(--blue-text)}
+
+/* Items this week */
+.week-items-panel{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;margin-bottom:1rem}
+.week-items-panel h3{font-size:14px;font-weight:500;margin-bottom:4px}
+.week-items-panel .sub{font-size:12px;color:var(--text3);margin-bottom:10px}
+.item-chip{display:inline-flex;align-items:center;gap:5px;background:var(--blue-bg);border:0.5px solid rgba(55,138,221,0.3);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--blue-text)}
+.item-chip button{background:none;border:none;cursor:pointer;color:var(--blue-text);font-size:14px;line-height:1;padding:0 0 0 2px}
 
 .submit-bar{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .submit-bar p{font-size:13px;color:var(--text2);flex:1}
-.week-view-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:1.5rem}
-.week-day-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:.75rem}
-.week-day-card .day-title{font-size:11px;font-weight:500;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
-.week-day-card .meal-name{font-size:13px;margin-bottom:3px;line-height:1.4}
-.week-day-card .meal-name.is-item{color:var(--blue-text)}
-.week-day-card .day-note{font-size:11px;color:var(--text3);margin-top:5px;font-style:italic;border-top:0.5px solid var(--border);padding-top:4px}
+
+/* This trip */
+.trip-day-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:1.5rem}
+.trip-day-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:.75rem}
+.trip-day-card .day-title{font-size:11px;font-weight:500;color:var(--text2);margin-bottom:6px}
+.trip-day-card .meal-name{font-size:13px;margin-bottom:3px;line-height:1.4}
+.trip-day-card .meal-name.is-item{color:var(--blue-text)}
+.trip-day-card .day-note{font-size:11px;color:var(--text3);margin-top:5px;font-style:italic;border-top:0.5px solid var(--border);padding-top:4px}
+
 .shop-section{margin-bottom:1.5rem}
 .shop-section h3{font-size:11px;font-weight:500;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
 .shop-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)}
@@ -129,19 +154,24 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
 .shop-item input[type=checkbox]{width:17px;height:17px;cursor:pointer;flex-shrink:0;accent-color:var(--green)}
 .shop-item label{font-size:14px;cursor:pointer;flex:1;line-height:1.4}
 .shop-item.checked label{text-decoration:line-through;color:var(--text3)}
-.past-week-list{display:flex;flex-direction:column;gap:8px}
-.past-week-item{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem}
-.past-week-item h3{font-size:14px;font-weight:500;margin-bottom:4px}
-.past-week-item .meal-preview{font-size:12px;color:var(--text2);line-height:1.7}
+
+/* Past trips */
+.trips-list{display:flex;flex-direction:column;gap:8px}
+.trip-item{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem}
+.trip-item h3{font-size:14px;font-weight:500;margin-bottom:2px}
+.trip-item .trip-date{font-size:12px;color:var(--text3);margin-bottom:6px}
+.trip-item .meal-preview{font-size:12px;color:var(--text2);line-height:1.7}
+
+/* Items tab */
 .items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:1.5rem}
 .item-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:.85rem;position:relative}
-.item-card h3{font-size:14px;font-weight:500;padding-right:50px;margin-bottom:3px}
+.item-card h3{font-size:14px;font-weight:500;padding-right:70px;margin-bottom:3px}
 .item-card .meta{font-size:12px;color:var(--text2)}
 .empty-state{text-align:center;padding:3rem 1rem;color:var(--text3);font-size:14px}
 @media(max-width:640px){
-  .week-grid{grid-template-columns:repeat(4,1fr)}
   .form-row{grid-template-columns:1fr}
-  .week-view-grid{grid-template-columns:repeat(2,1fr)}
+  .trip-config input[type=text]{width:100%}
+  .trip-day-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
@@ -159,9 +189,9 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
   <div class="tabs">
     <button class="tab active" onclick="switchTab('recipes')">Recipes</button>
     <button class="tab" onclick="switchTab('items')">Items</button>
-    <button class="tab" onclick="switchTab('plan')">Plan week</button>
-    <button class="tab" onclick="switchTab('thisweek')">This week</button>
-    <button class="tab" onclick="switchTab('history')">Past weeks</button>
+    <button class="tab" onclick="switchTab('plan')">Plan trip</button>
+    <button class="tab" onclick="switchTab('thistrip')">This trip</button>
+    <button class="tab" onclick="switchTab('history')">Past trips</button>
   </div>
 
   <!-- RECIPES -->
@@ -243,7 +273,7 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
       <h2>Saved items</h2>
       <button class="btn btn-sm" id="toggle-item-form-btn" onclick="toggleItemForm()">+ Add item</button>
     </div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Single things to buy — snacks, drinks, household items. Add them to any day in the planner and they'll show up on the shopping list.</p>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Single things to buy — snacks, drinks, household. Add to any trip and they show up on the shopping list.</p>
     <div id="item-form" style="display:none">
       <div class="form-panel">
         <h3 id="item-form-title">New item</h3>
@@ -287,13 +317,33 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
     <div class="items-grid" id="items-grid"></div>
   </div>
 
-  <!-- PLAN WEEK -->
+  <!-- PLAN TRIP -->
   <div id="view-plan" class="view">
     <div class="section-header">
-      <h2>Plan the week</h2>
-      <span style="font-size:13px;color:var(--text2)" id="plan-week-label"></span>
+      <h2>Plan a trip</h2>
     </div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Click <strong>+</strong> on any day to add a recipe or item. Hit <strong>Submit week</strong> when ready.</p>
+
+    <!-- Trip config -->
+    <div class="trip-config">
+      <div class="form-group">
+        <label>Trip name</label>
+        <input type="text" id="trip-name-input" placeholder="e.g. Walmart run May 19">
+      </div>
+      <div class="form-group">
+        <label>Start date</label>
+        <input type="date" id="trip-start-date">
+      </div>
+      <div class="form-group">
+        <label>Days</label>
+        <div class="day-count-ctrl">
+          <button onclick="changeDayCount(-1)">−</button>
+          <span id="day-count-display">7</span>
+          <button onclick="changeDayCount(1)">+</button>
+        </div>
+      </div>
+      <button class="btn btn-sm" onclick="applyTripConfig()">Update</button>
+    </div>
+
     <div class="filters" id="plan-filters">
       <button class="filter-btn active" onclick="planFilter('all',this)">All recipes</button>
       <button class="filter-btn" onclick="planFilter('protein',this)">Protein</button>
@@ -305,6 +355,7 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
       <button class="filter-btn" onclick="planFilter('soup',this)">Soups & stews</button>
       <button class="filter-btn" onclick="planFilter('snack',this)">Snacks</button>
     </div>
+
     <div id="picker-panel" style="display:none" class="picker-panel">
       <div class="picker-header">
         <h4>Add to <span id="picker-day-label"></span></h4>
@@ -318,7 +369,7 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
         <div class="picker-grid" id="picker-grid"></div>
       </div>
       <div id="picker-items-pane" style="display:none">
-        <div style="font-size:12px;color:var(--text2);margin-bottom:6px">Saved items — click to add:</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:6px">Saved items:</div>
         <div class="picker-grid" id="picker-items-grid"></div>
         <div class="freeform-row">
           <input type="text" id="freeform-input" placeholder="Or type a new item...">
@@ -336,19 +387,16 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
         </div>
       </div>
     </div>
+
     <div class="week-grid" id="plan-week-grid"></div>
 
-    <!-- ITEMS THIS WEEK -->
-    <div style="background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;margin-bottom:1rem">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <div>
-          <span style="font-size:14px;font-weight:500">Items this week</span>
-          <span style="font-size:12px;color:var(--text3);margin-left:8px">snacks, drinks, household — goes straight to shopping list</span>
-        </div>
-      </div>
-      <div id="week-items-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px"></div>
+    <!-- Items this trip -->
+    <div class="week-items-panel">
+      <h3>Items this trip</h3>
+      <div class="sub">Snacks, drinks, household — goes straight to shopping list</div>
+      <div id="week-items-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;min-height:24px"></div>
       <div class="freeform-row">
-        <input type="text" id="week-item-input" placeholder="Add an item... (e.g. Hot Cheetos bag)" onkeydown="if(event.key==='Enter')addWeekItem()">
+        <input type="text" id="week-item-input" placeholder="Add an item..." onkeydown="if(event.key==='Enter')addWeekItem()">
         <select id="week-item-cat">
           <option value="snack">Snack</option>
           <option value="produce">Produce</option>
@@ -361,25 +409,25 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
         </select>
         <button class="btn btn-sm btn-primary" onclick="addWeekItem()">Add</button>
       </div>
-      <div style="margin-top:8px">
-        <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Or pick from saved items:</div>
+      <div style="margin-top:10px">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Quick picks from saved items:</div>
         <div id="week-saved-items-row" style="display:flex;flex-wrap:wrap;gap:5px"></div>
       </div>
     </div>
 
     <div class="submit-bar">
       <p id="submit-bar-msg"></p>
-      <button class="btn btn-green" onclick="submitWeek()" id="submit-btn">Submit week</button>
+      <button class="btn btn-green" onclick="submitTrip()" id="submit-btn">Submit trip</button>
     </div>
   </div>
 
-  <!-- THIS WEEK -->
-  <div id="view-thisweek" class="view">
+  <!-- THIS TRIP -->
+  <div id="view-thistrip" class="view">
     <div class="section-header">
-      <h2 id="thisweek-title">This week</h2>
+      <h2 id="thistrip-title">This trip</h2>
       <button class="btn btn-sm" onclick="switchTab('plan')">Edit plan</button>
     </div>
-    <div id="thisweek-meals"></div>
+    <div id="thistrip-meals"></div>
     <div style="margin-top:1.5rem">
       <div class="section-header">
         <h2>Shopping list</h2>
@@ -389,18 +437,18 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
     </div>
   </div>
 
-  <!-- HISTORY -->
+  <!-- PAST TRIPS -->
   <div id="view-history" class="view">
-    <div class="section-header"><h2>Past weeks</h2></div>
+    <div class="section-header"><h2>Past trips</h2></div>
     <div id="history-content"></div>
   </div>
 </div>
 
 <script>
 const SUPABASE_URL='https://qzngtdmrlbmigzmbnnid.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_WeYWprBTVZahREoBRj4Qgg_5lS6AvYO';
+const SUPABASE_KEY='sb_publishable_WeYWprBTVZahREoBRj4Qgg_5lS6AvYO';
 const H={'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY};
-const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
 const CAT_LABELS={protein:'Protein',seafood:'Seafood',quick:'Quick',slow:'Slow cooker',lunch:'Lunch',pasta:'Pasta & grains',soup:'Soups & stews',snack:'Snack',other:'Other',drinks:'Drinks',household:'Household',produce:'Produce',dairy:'Dairy',grains:'Grains'};
 const SHOP_CATS={
   produce:['broccoli','asparagus','tomato','lettuce','avocado','lime','lemon','onion','garlic','basil','corn','pea','carrot','coleslaw','apple','pepper','zucchini','spinach','celery','mushroom','potato','sweet potato','cabbage','ginger','cilantro','parsley','green onion','scallion','cucumber'],
@@ -408,7 +456,7 @@ const SHOP_CATS={
   dairy:['cheese','cheddar','parmesan','mozzarella','sour cream','cream','butter','milk','yogurt'],
   grains:['rice','pasta','taco','tortilla','bun','bread','noodle','quinoa','oat','flour'],
   snack:['cheeto','chip','cracker','popcorn','pretzel','cookie','granola','bar','gummy'],
-  drinks:['juice','soda','water','beer','wine','coffee','tea','milk'],
+  drinks:['juice','soda','water','beer','wine','coffee','tea'],
   household:['paper','soap','towel','detergent','trash','bag','foil','wrap'],
   pantry:[]
 };
@@ -424,10 +472,45 @@ const DEFAULT_RECIPES=[
   {id:'r9',name:'Slow cooker Texas pulled pork',cat:'slow',time:480,servings:8,notes:'Low 8hrs or high 4hrs. Shred with forks. Serve on buns with coleslaw.',url:'https://www.allrecipes.com/recipe/92462/',ingredients:[{qty:'4',unit:'lbs',name:'pork shoulder',staple:false},{qty:'1',unit:'cup',name:'chicken broth',staple:true},{qty:'1',unit:'cup',name:'apple cider vinegar',staple:true},{qty:'2',unit:'tbsp',name:'brown sugar',staple:true},{qty:'1',unit:'tbsp',name:'chili powder',staple:true},{qty:'',unit:'',name:'salt and pepper',staple:true},{qty:'6',unit:'',name:'hamburger buns',staple:false},{qty:'1',unit:'bag',name:'coleslaw mix',staple:false}]}
 ];
 
-let recipes=[],savedItems=[],weeks={};
+let recipes=[],savedItems=[],trips=[];
+let currentTripId=null;
 let editingRecipeId=null,editingItemId=null;
-let recipeFilter='all',planFilterCat='all',pickerTab='recipes';
-let pickerDay=null,saveTimer=null;
+let recipeFilter='all',planFilterCat='all',pickerTab='recipes',pickerDay=null;
+let saveTimer=null;
+
+// Draft trip state (in-progress, not yet submitted)
+let draft={
+  tripName:'',
+  startDate:todayStr(),
+  dayCount:7,
+  plan:{},
+  notes:{},
+  weekItems:[]
+};
+
+function todayStr(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function dateLabel(dateStr){
+  const d=new Date(dateStr+'T00:00:00');
+  return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+}
+function addDays(dateStr,n){
+  const d=new Date(dateStr+'T00:00:00');
+  d.setDate(d.getDate()+n);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function getDayKeys(){
+  const keys=[];
+  for(let i=0;i<draft.dayCount;i++) keys.push(addDays(draft.startDate,i));
+  return keys;
+}
+function defaultTripName(startDate,dayCount){
+  const end=addDays(startDate,dayCount-1);
+  const fmt=s=>new Date(s+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  return `${fmt(startDate)} – ${fmt(end)}`;
+}
 
 async function sbGet(table,params=''){
   const r=await fetch(`${SUPABASE_URL}/rest/v1/${table}${params}`,{headers:{...H,'Prefer':'return=representation'}});
@@ -444,21 +527,6 @@ async function sbDelete(table,id){
   if(!r.ok)throw new Error(await r.text());
 }
 
-function getISOWeek(d){
-  const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
-  t.setUTCDate(t.getUTCDate()+4-(t.getUTCDay()||7));
-  const y=new Date(Date.UTC(t.getUTCFullYear(),0,1));
-  return Math.ceil((((t-y)/86400000)+1)/7);
-}
-function getWeekKey(){const d=new Date();return `${d.getFullYear()}-W${String(getISOWeek(d)).padStart(2,'0')}`;}
-function weekLabel(key){
-  const[y,w]=key.split('-W');
-  const d=new Date(parseInt(y),0,1+(parseInt(w)-1)*7);
-  const dow=d.getDay();d.setDate(d.getDate()+(dow<=1?1-dow:8-dow));
-  const end=new Date(d);end.setDate(d.getDate()+6);
-  const fmt=dt=>dt.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  return `${fmt(d)}–${fmt(end)}, ${y}`;
-}
 function setSyncStatus(s,msg){
   document.getElementById('sync-dot').className='sync-dot'+(s==='ok'?' ok':s==='err'?' err':' loading');
   document.getElementById('sync-label').textContent=msg;
@@ -467,31 +535,47 @@ function setSyncStatus(s,msg){
 async function loadData(){
   setSyncStatus('loading','Loading...');
   try{
-    const[recs,itms,wks]=await Promise.all([
+    const[recs,itms,trps]=await Promise.all([
       sbGet('recipes','?order=created_at.asc'),
       sbGet('items','?order=created_at.asc'),
-      sbGet('weeks','?order=week_key.desc')
+      sbGet('weeks','?order=updated_at.desc')
     ]);
     recipes=recs.length?recs:DEFAULT_RECIPES;
     savedItems=itms;
-    weeks={};wks.forEach(w=>weeks[w.week_key]=w);
-    if(!recs.length)await sbUpsert('recipes',DEFAULT_RECIPES);
+    trips=trps;
+    // Find current unsubmitted trip or most recent submitted
+    const unsubmitted=trips.find(t=>!t.submitted);
+    if(unsubmitted){
+      currentTripId=unsubmitted.week_key;
+      draft={
+        tripName:unsubmitted.trip_name||'',
+        startDate:unsubmitted.start_date||todayStr(),
+        dayCount:unsubmitted.day_count||7,
+        plan:unsubmitted.plan||{},
+        notes:unsubmitted.notes||{},
+        weekItems:unsubmitted.week_items||[]
+      };
+    } else {
+      currentTripId=null;
+      draft={tripName:'',startDate:todayStr(),dayCount:7,plan:{},notes:{},weekItems:[]};
+    }
+    if(!recs.length) await sbUpsert('recipes',DEFAULT_RECIPES);
     setSyncStatus('ok','Synced');
   }catch(e){
     setSyncStatus('err','Offline');
-    recipes=DEFAULT_RECIPES;savedItems=[];
+    recipes=DEFAULT_RECIPES;savedItems=[];trips=[];
   }
   render();
 }
 
 function switchTab(t){
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['recipes','items','plan','thisweek','history'][i]===t));
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['recipes','items','plan','thistrip','history'][i]===t));
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+t).classList.add('active');
-  if(t==='plan')renderPlan();
-  if(t==='thisweek'){renderThisWeek();renderShopping();}
-  if(t==='history')renderHistory();
-  if(t==='items')renderItems();
+  if(t==='plan') renderPlan();
+  if(t==='thistrip'){renderThisTrip();renderShopping();}
+  if(t==='history') renderHistory();
+  if(t==='items') renderItems();
 }
 
 /* ---- RECIPES ---- */
@@ -571,7 +655,6 @@ async function saveRecipe(){
 }
 async function deleteRecipe(id){
   if(!confirm('Delete this recipe?'))return;
-  setSyncStatus('loading','Deleting...');
   try{
     await sbDelete('recipes',id);
     recipes=recipes.filter(r=>r.id!==id);
@@ -582,7 +665,7 @@ async function deleteRecipe(id){
 /* ---- ITEMS ---- */
 function renderItems(){
   const grid=document.getElementById('items-grid');
-  if(!savedItems.length){grid.innerHTML='<div class="empty-state">No saved items yet. Add one above or type a new item when planning the week — it saves automatically.</div>';return;}
+  if(!savedItems.length){grid.innerHTML='<div class="empty-state">No saved items yet. Add one above or type a new item when planning a trip.</div>';return;}
   grid.innerHTML=savedItems.map(item=>{
     const catLabel=CAT_LABELS[item.category]||item.category;
     return `<div class="item-card">
@@ -625,7 +708,7 @@ function editItem(id){
 }
 async function saveItem(nameOverride,catOverride){
   const name=(nameOverride||document.getElementById('fi-name').value).trim();
-  if(!name)return alert('Please enter an item name.');
+  if(!name)return null;
   const item={
     id:editingItemId||'i'+Date.now(),
     name,
@@ -645,7 +728,6 @@ async function saveItem(nameOverride,catOverride){
 }
 async function deleteItem(id){
   if(!confirm('Delete this item?'))return;
-  setSyncStatus('loading','Deleting...');
   try{
     await sbDelete('items',id);
     savedItems=savedItems.filter(x=>x.id!==id);
@@ -653,40 +735,65 @@ async function deleteItem(id){
   }catch(e){setSyncStatus('err','Delete failed');}
 }
 
-/* ---- PLAN WEEK ---- */
+/* ---- PLAN TRIP ---- */
 function planFilter(f,btn){
   planFilterCat=f;
   document.querySelectorAll('#plan-filters .filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
 }
-function getWeek(wk){return weeks[wk]||{week_key:wk,plan:{},notes:{},submitted:false,shopping:{}};}
+function changeDayCount(delta){
+  const cur=parseInt(document.getElementById('day-count-display').textContent)||7;
+  const next=Math.max(1,Math.min(14,cur+delta));
+  document.getElementById('day-count-display').textContent=next;
+  draft.dayCount=next;
+  renderDayGrid();renderWeekItemsPanel();
+}
+function applyTripConfig(){
+  draft.tripName=document.getElementById('trip-name-input').value.trim();
+  draft.startDate=document.getElementById('trip-start-date').value||todayStr();
+  draft.dayCount=parseInt(document.getElementById('day-count-display').textContent)||7;
+  if(!draft.tripName) draft.tripName=defaultTripName(draft.startDate,draft.dayCount);
+  document.getElementById('trip-name-input').value=draft.tripName;
+  renderDayGrid();schedSaveDraft();
+}
 function renderPlan(){
-  const wk=getWeekKey();
-  document.getElementById('plan-week-label').textContent=weekLabel(wk);
-  const week=getWeek(wk);
-  document.getElementById('plan-week-grid').innerHTML=DAYS.map(day=>{
-    const entries=(week.plan[day]||[]).map((entry,idx)=>{
-      const label=entry.type==='recipe'
-        ?(recipes.find(x=>x.id===entry.id)||{name:'?'}).name
-        :entry.name;
+  // Init config inputs
+  document.getElementById('trip-name-input').value=draft.tripName||defaultTripName(draft.startDate,draft.dayCount);
+  document.getElementById('trip-start-date').value=draft.startDate;
+  document.getElementById('day-count-display').textContent=draft.dayCount;
+  renderDayGrid();
+  renderWeekItemsPanel();
+  const hasEntries=Object.values(draft.plan).flat().length>0||draft.weekItems.length>0;
+  document.getElementById('submit-bar-msg').textContent=hasEntries?'Ready to submit? This will lock in the trip and generate your shopping list.':'Add meals and items above, then submit to generate your shopping list.';
+  document.getElementById('submit-btn').textContent='Submit trip';
+}
+function renderDayGrid(){
+  const keys=getDayKeys();
+  const grid=document.getElementById('plan-week-grid');
+  // Set columns dynamically
+  const cols=Math.min(keys.length,7);
+  grid.style.gridTemplateColumns=`repeat(${cols},1fr)`;
+  grid.innerHTML=keys.map(dateKey=>{
+    const entries=(draft.plan[dateKey]||[]).map((entry,idx)=>{
+      const label=entry.type==='recipe'?(recipes.find(x=>x.id===entry.id)||{name:'?'}).name:entry.name;
       const cls=entry.type==='item'?'planned-meal is-item':'planned-meal';
-      return `<div class="${cls}"><span style="flex:1">${label}</span><button class="rm" onclick="removePlanEntry('${day}',${idx})">×</button></div>`;
+      return `<div class="${cls}"><span style="flex:1">${label}</span><button class="rm" onclick="removePlanEntry('${dateKey}',${idx})">×</button></div>`;
     }).join('');
-    const note=week.notes&&week.notes[day]||'';
+    const note=draft.notes[dateKey]||'';
+    const d=new Date(dateKey+'T00:00:00');
+    const dayName=d.toLocaleDateString('en-US',{weekday:'short'});
+    const dayDate=d.toLocaleDateString('en-US',{month:'numeric',day:'numeric'});
     return `<div class="day-col">
-      <div class="day-label">${day}</div>
-      <div class="day-slot">${entries}<div class="add-to-day" onclick="openPicker('${day}')">+</div></div>
-      <textarea class="day-note-input" rows="2" placeholder="Note..." onchange="saveDayNote('${day}',this.value)">${note}</textarea>
+      <div class="day-label"><div>${dayName}</div><div class="day-name">${dayDate}</div></div>
+      <div class="day-slot">${entries}<div class="add-to-day" onclick="openPicker('${dateKey}')">+</div></div>
+      <textarea class="day-note-input" rows="2" placeholder="Note..." onchange="saveDayNote('${dateKey}',this.value)">${note}</textarea>
     </div>`;
   }).join('');
-  const submitted=week.submitted;
-  document.getElementById('submit-bar-msg').textContent=submitted?'Plan submitted — edit anytime and resubmit to update shopping list.':'Plan your meals above, then submit to generate the shopping list.';
-  document.getElementById('submit-btn').textContent=submitted?'Resubmit week':'Submit week';
-  renderWeekItemsPanel();
 }
-function openPicker(day){
-  pickerDay=day;
-  document.getElementById('picker-day-label').textContent=day;
+function openPicker(dateKey){
+  pickerDay=dateKey;
+  const d=new Date(dateKey+'T00:00:00');
+  document.getElementById('picker-day-label').textContent=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
   switchPickerTab('recipes',document.querySelector('.picker-tab'));
   document.getElementById('picker-panel').style.display='block';
 }
@@ -710,89 +817,166 @@ function renderPickerItems(){
   grid.innerHTML=savedItems.map(item=>`<div class="picker-item" onclick="addPlanItem('${item.id}')"><strong>${item.name}</strong><div class="item-sub">${item.qty||CAT_LABELS[item.category]||''}</div></div>`).join('');
 }
 function addPlanRecipe(rid){
-  const wk=getWeekKey();if(!weeks[wk])weeks[wk]=getWeek(wk);
-  if(!weeks[wk].plan[pickerDay])weeks[wk].plan[pickerDay]=[];
-  weeks[wk].plan[pickerDay].push({type:'recipe',id:rid});
-  closePicker();renderPlan();schedSave(wk);
+  if(!draft.plan[pickerDay])draft.plan[pickerDay]=[];
+  draft.plan[pickerDay].push({type:'recipe',id:rid});
+  closePicker();renderDayGrid();schedSaveDraft();
 }
 function addPlanItem(iid){
   const item=savedItems.find(x=>x.id===iid);if(!item)return;
-  const wk=getWeekKey();if(!weeks[wk])weeks[wk]=getWeek(wk);
-  if(!weeks[wk].plan[pickerDay])weeks[wk].plan[pickerDay]=[];
-  weeks[wk].plan[pickerDay].push({type:'item',id:iid,name:item.name,category:item.category,qty:item.qty});
-  closePicker();renderPlan();schedSave(wk);
+  if(!draft.plan[pickerDay])draft.plan[pickerDay]=[];
+  draft.plan[pickerDay].push({type:'item',id:iid,name:item.name,category:item.category,qty:item.qty});
+  closePicker();renderDayGrid();schedSaveDraft();
 }
 async function addFreeformItem(){
   const input=document.getElementById('freeform-input');
   const name=input.value.trim();if(!name)return;
   const cat=document.getElementById('freeform-cat').value;
-  // Save to items table for future reuse
   const existing=savedItems.find(x=>x.name.toLowerCase()===name.toLowerCase());
   let item=existing;
-  if(!existing){
-    item=await saveItem(name,cat);
-  }
+  if(!existing){item=await saveItem(name,cat);renderItems();}
   if(!item)return;
-  const wk=getWeekKey();if(!weeks[wk])weeks[wk]=getWeek(wk);
-  if(!weeks[wk].plan[pickerDay])weeks[wk].plan[pickerDay]=[];
-  weeks[wk].plan[pickerDay].push({type:'item',id:item.id,name:item.name,category:item.category,qty:item.qty||''});
-  input.value='';
-  closePicker();renderPlan();renderItems();schedSave(wk);
+  if(!draft.plan[pickerDay])draft.plan[pickerDay]=[];
+  draft.plan[pickerDay].push({type:'item',id:item.id,name:item.name,category:item.category,qty:item.qty||''});
+  input.value='';closePicker();renderDayGrid();schedSaveDraft();
 }
-function removePlanEntry(day,idx){
-  const wk=getWeekKey();
-  weeks[wk].plan[day].splice(idx,1);
-  renderPlan();schedSave(wk);
+function removePlanEntry(dateKey,idx){
+  draft.plan[dateKey].splice(idx,1);
+  renderDayGrid();schedSaveDraft();
 }
-function saveDayNote(day,val){
-  const wk=getWeekKey();if(!weeks[wk])weeks[wk]=getWeek(wk);
-  if(!weeks[wk].notes)weeks[wk].notes={};
-  weeks[wk].notes[day]=val;schedSave(wk);
+function saveDayNote(dateKey,val){
+  draft.notes[dateKey]=val;schedSaveDraft();
 }
-function schedSave(wk){clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveWeek(wk),800);}
-async function saveWeek(wk){
-  const week=weeks[wk]||getWeek(wk);
+
+/* ---- WEEK ITEMS PANEL ---- */
+function renderWeekItemsPanel(){
+  const list=document.getElementById('week-items-list');
+  if(list){
+    list.innerHTML=draft.weekItems.length
+      ?draft.weekItems.map((item,idx)=>`<div class="item-chip"><span>${item.name}${item.qty?' ('+item.qty+')':''}</span><button onclick="removeWeekItem(${idx})">×</button></div>`).join('')
+      :'<span style="font-size:12px;color:var(--text3)">Nothing added yet</span>';
+  }
+  const row=document.getElementById('week-saved-items-row');
+  if(row){
+    row.innerHTML=savedItems.map(item=>`<button onclick="addWeekItemFromSaved('${item.id}')" class="quick-pick">${item.name}</button>`).join('');
+  }
+}
+async function addWeekItem(){
+  const input=document.getElementById('week-item-input');
+  const name=input.value.trim();if(!name)return;
+  const cat=document.getElementById('week-item-cat').value;
+  const existing=savedItems.find(x=>x.name.toLowerCase()===name.toLowerCase());
+  let item=existing;
+  if(!existing){item=await saveItem(name,cat);renderItems();}
+  if(!item)return;
+  if(!draft.weekItems.find(x=>x.id===item.id))
+    draft.weekItems.push({id:item.id,name:item.name,category:item.category,qty:item.qty||''});
+  input.value='';renderWeekItemsPanel();schedSaveDraft();
+}
+function addWeekItemFromSaved(iid){
+  const item=savedItems.find(x=>x.id===iid);if(!item)return;
+  if(draft.weekItems.find(x=>x.id===iid))return;
+  draft.weekItems.push({id:item.id,name:item.name,category:item.category,qty:item.qty||''});
+  renderWeekItemsPanel();schedSaveDraft();
+}
+function removeWeekItem(idx){
+  draft.weekItems.splice(idx,1);
+  renderWeekItemsPanel();schedSaveDraft();
+}
+
+/* ---- SAVE DRAFT ---- */
+function schedSaveDraft(){clearTimeout(saveTimer);saveTimer=setTimeout(saveDraft,800);}
+async function saveDraft(){
+  const tripId=currentTripId||('trip-'+Date.now());
+  currentTripId=tripId;
+  const tripName=draft.tripName||defaultTripName(draft.startDate,draft.dayCount);
   setSyncStatus('loading','Saving...');
   try{
-    await sbUpsert('weeks',{week_key:wk,plan:week.plan,notes:week.notes,submitted:week.submitted,shopping:week.shopping});
+    await sbUpsert('weeks',{
+      week_key:tripId,
+      trip_name:tripName,
+      start_date:draft.startDate,
+      day_count:draft.dayCount,
+      plan:draft.plan,
+      notes:draft.notes,
+      week_items:draft.weekItems,
+      submitted:false,
+      shopping:{}
+    });
     setSyncStatus('ok','Saved');
   }catch(e){setSyncStatus('err','Save failed');}
 }
-async function submitWeek(){
-  const wk=getWeekKey();if(!weeks[wk])weeks[wk]=getWeek(wk);
-  weeks[wk].submitted=true;weeks[wk].shopping={};
-  renderPlan();await saveWeek(wk);switchTab('thisweek');
+
+async function submitTrip(){
+  const tripId=currentTripId||('trip-'+Date.now());
+  currentTripId=tripId;
+  const tripName=draft.tripName||defaultTripName(draft.startDate,draft.dayCount);
+  setSyncStatus('loading','Saving...');
+  try{
+    await sbUpsert('weeks',{
+      week_key:tripId,
+      trip_name:tripName,
+      start_date:draft.startDate,
+      day_count:draft.dayCount,
+      plan:draft.plan,
+      notes:draft.notes,
+      week_items:draft.weekItems,
+      submitted:true,
+      shopping:{}
+    });
+    // Update local trips list
+    const idx=trips.findIndex(t=>t.week_key===tripId);
+    const rec={week_key:tripId,trip_name:tripName,start_date:draft.startDate,day_count:draft.dayCount,plan:draft.plan,notes:draft.notes,week_items:draft.weekItems,submitted:true,shopping:{}};
+    if(idx>=0)trips[idx]=rec;else trips.unshift(rec);
+    // Reset draft for next trip
+    draft={tripName:'',startDate:todayStr(),dayCount:7,plan:{},notes:{},weekItems:[]};
+    currentTripId=null;
+    setSyncStatus('ok','Trip submitted!');
+    switchTab('thistrip');
+  }catch(e){setSyncStatus('err','Save failed');}
 }
 
-/* ---- THIS WEEK ---- */
-function renderThisWeek(){
-  const wk=getWeekKey();
-  document.getElementById('thisweek-title').textContent='This week — '+weekLabel(wk);
-  const week=weeks[wk];
-  const el=document.getElementById('thisweek-meals');
-  if(!week||!week.submitted){
-    el.innerHTML='<div class="empty-state">No plan submitted yet.<br><button class="btn btn-sm btn-primary" onclick="switchTab(\'plan\')" style="margin-top:12px">Plan this week →</button></div>';return;
+/* ---- THIS TRIP ---- */
+function getLatestSubmittedTrip(){return trips.find(t=>t.submitted);}
+function renderThisTrip(){
+  const trip=getLatestSubmittedTrip();
+  const title=document.getElementById('thistrip-title');
+  const el=document.getElementById('thistrip-meals');
+  if(!trip){
+    title.textContent='This trip';
+    el.innerHTML='<div class="empty-state">No trip submitted yet.<br><button class="btn btn-sm btn-primary" onclick="switchTab(\'plan\')" style="margin-top:12px">Plan a trip →</button></div>';
+    return;
   }
-  el.innerHTML='<div class="week-view-grid">'+DAYS.map(day=>{
-    const entries=(week.plan[day]||[]).map(e=>{
+  title.textContent=trip.trip_name||'This trip';
+  // Build day cards
+  const startDate=trip.start_date||todayStr();
+  const dayCount=trip.day_count||7;
+  const dayKeys=[];for(let i=0;i<dayCount;i++)dayKeys.push(addDays(startDate,i));
+  const dayCards=dayKeys.map(dateKey=>{
+    const entries=(trip.plan[dateKey]||[]).map(e=>{
       const label=e.type==='recipe'?(recipes.find(x=>x.id===e.id)||{name:'?'}).name:e.name;
       return `<div class="meal-name${e.type==='item'?' is-item':''}">${label}</div>`;
     }).join('');
-    const note=week.notes&&week.notes[day]?`<div class="day-note">${week.notes[day]}</div>`:'';
-    return `<div class="week-day-card"><div class="day-title">${day}</div>${entries||'<div style="color:var(--text3);font-size:12px">Nothing planned</div>'}${note}</div>`;
-  }).join('')+'</div>';
+    const note=trip.notes&&trip.notes[dateKey]?`<div class="day-note">${trip.notes[dateKey]}</div>`:'';
+    const d=new Date(dateKey+'T00:00:00');
+    const label=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    return `<div class="trip-day-card"><div class="day-title">${label}</div>${entries||'<div style="color:var(--text3);font-size:12px">Nothing planned</div>'}${note}</div>`;
+  }).join('');
+  el.innerHTML=`<div class="trip-day-grid">${dayCards}</div>`;
 }
 
 /* ---- SHOPPING LIST ---- */
+function getShopCat(n){
+  const nl=n.toLowerCase();
+  for(const[c,ws]of Object.entries(SHOP_CATS)){if(c==='pantry')continue;if(ws.some(w=>nl.includes(w)))return c;}
+  return'pantry';
+}
 function renderShopping(){
-  const wk=getWeekKey();const week=weeks[wk];
+  const trip=getLatestSubmittedTrip();
   const content=document.getElementById('shopping-content');
-  if(!week||!week.submitted){content.innerHTML='<div class="empty-state">Submit a weekly plan to generate the shopping list.</div>';return;}
-  const allEntries=Object.values(week.plan||{}).flat();
-  const weekItems=week.weekItems||[];
-  if(!allEntries.length&&!weekItems.length){content.innerHTML='<div class="empty-state">No meals planned this week.</div>';return;}
-
-  // Aggregate from recipe ingredients + day items + week items
+  if(!trip){content.innerHTML='<div class="empty-state">Submit a trip to generate the shopping list.</div>';return;}
+  const allEntries=Object.values(trip.plan||{}).flat();
+  const weekItems=trip.week_items||[];
+  if(!allEntries.length&&!weekItems.length){content.innerHTML='<div class="empty-state">No meals or items planned.</div>';return;}
   const aggr={};
   allEntries.forEach(entry=>{
     if(entry.type==='recipe'){
@@ -803,36 +987,22 @@ function renderShopping(){
         if(!aggr[key])aggr[key]={name:ing.name,entries:[],shopCat:getShopCat(ing.name)};
         aggr[key].entries.push({qty:ing.qty,unit:ing.unit});
       });
-    } else if(entry.type==='item'){
+    }else if(entry.type==='item'){
       const key=entry.name.toLowerCase().trim();
       if(!aggr[key])aggr[key]={name:entry.name,entries:[],shopCat:entry.category||getShopCat(entry.name)};
       if(entry.qty)aggr[key].entries.push({qty:entry.qty,unit:''});
     }
   });
-  // Add week-level items
-  (week.weekItems||[]).forEach(item=>{
+  weekItems.forEach(item=>{
     const key=item.name.toLowerCase().trim();
     if(!aggr[key])aggr[key]={name:item.name,entries:[],shopCat:item.category||getShopCat(item.name)};
     if(item.qty)aggr[key].entries.push({qty:item.qty,unit:''});
   });
-
-  function getShopCat(n){
-    const nl=n.toLowerCase();
-    for(const[c,ws]of Object.entries(SHOP_CATS)){
-      if(c==='pantry')continue;
-      if(ws.some(w=>nl.includes(w)))return c;
-    }return'pantry';
-  }
-
   const CAT_ORDER=['produce','protein','dairy','grains','snack','drinks','household','pantry'];
   const CAT_DISPLAY={produce:'Produce',protein:'Protein & meat',dairy:'Dairy',grains:'Grains & bread',snack:'Snacks',drinks:'Drinks',household:'Household',pantry:'Pantry & other'};
   const byC={};CAT_ORDER.forEach(c=>byC[c]=[]);
-  Object.values(aggr).forEach(item=>{
-    const c=CAT_ORDER.includes(item.shopCat)?item.shopCat:'pantry';
-    byC[c].push(item);
-  });
-
-  const checked=week.shopping||{};
+  Object.values(aggr).forEach(item=>{const c=CAT_ORDER.includes(item.shopCat)?item.shopCat:'pantry';byC[c].push(item);});
+  const checked=trip.shopping||{};
   const html=CAT_ORDER.filter(cat=>byC[cat].length).map(cat=>{
     const rows=byC[cat].map(item=>{
       const key='chk-'+item.name.replace(/\W/g,'_');
@@ -844,101 +1014,55 @@ function renderShopping(){
   }).join('');
   content.innerHTML=html||'<div class="empty-state">All ingredients are pantry staples — nothing to buy!</div>';
 }
-
 async function toggleCheck(key){
-  const wk=getWeekKey();if(!weeks[wk])weeks[wk]=getWeek(wk);
-  if(!weeks[wk].shopping)weeks[wk].shopping={};
-  weeks[wk].shopping[key]=!weeks[wk].shopping[key];
+  const trip=getLatestSubmittedTrip();if(!trip)return;
+  if(!trip.shopping)trip.shopping={};
+  trip.shopping[key]=!trip.shopping[key];
   const row=document.getElementById('si-'+key);
-  if(row)row.classList.toggle('checked',weeks[wk].shopping[key]);
-  schedSave(wk);
+  if(row)row.classList.toggle('checked',trip.shopping[key]);
+  clearTimeout(saveTimer);saveTimer=setTimeout(async()=>{
+    try{await sbUpsert('weeks',{week_key:trip.week_key,shopping:trip.shopping});setSyncStatus('ok','Saved');}
+    catch(e){setSyncStatus('err','Save failed');}
+  },800);
 }
 async function clearChecked(){
-  const wk=getWeekKey();if(weeks[wk])weeks[wk].shopping={};
-  renderShopping();await saveWeek(wk);
+  const trip=getLatestSubmittedTrip();if(!trip)return;
+  trip.shopping={};renderShopping();
+  try{await sbUpsert('weeks',{week_key:trip.week_key,shopping:{}});setSyncStatus('ok','Cleared');}
+  catch(e){setSyncStatus('err','Save failed');}
 }
 
-/* ---- HISTORY ---- */
+/* ---- PAST TRIPS ---- */
 function renderHistory(){
   const content=document.getElementById('history-content');
-  const cur=getWeekKey();
-  const past=Object.entries(weeks).filter(([k,v])=>k!==cur&&v.submitted).sort((a,b)=>b[0].localeCompare(a[0]));
-  if(!past.length){content.innerHTML='<div class="empty-state">No past weeks yet.</div>';return;}
-  content.innerHTML='<div class="past-week-list">'+past.map(([k,week])=>{
-    const names=Object.values(week.plan||{}).flat().map(e=>e.type==='recipe'?(recipes.find(x=>x.id===e.id)||{name:'?'}).name:e.name);
+  const past=trips.filter(t=>t.submitted).slice(0);
+  if(!past.length){content.innerHTML='<div class="empty-state">No past trips yet. Submitted trips will appear here.</div>';return;}
+  content.innerHTML='<div class="trips-list">'+past.map(trip=>{
+    const names=Object.values(trip.plan||{}).flat().map(e=>e.type==='recipe'?(recipes.find(x=>x.id===e.id)||{name:'?'}).name:e.name);
     const unique=[...new Set(names)];
-    return `<div class="past-week-item">
-      <h3>${weekLabel(k)}</h3>
-      <div class="meal-preview">${unique.slice(0,7).join(' · ')}${unique.length>7?` · +${unique.length-7} more`:''}</div>
-      <button class="btn btn-xs" style="margin-top:8px" onclick="copyWeek('${k}')">Copy to this week</button>
+    const itemNames=(trip.week_items||[]).map(i=>i.name);
+    const allNames=[...unique,...itemNames];
+    return `<div class="trip-item">
+      <h3>${trip.trip_name||'Unnamed trip'}</h3>
+      <div class="trip-date">${trip.start_date?dateLabel(trip.start_date):''}</div>
+      <div class="meal-preview">${allNames.slice(0,8).join(' · ')}${allNames.length>8?` · +${allNames.length-8} more`:''}</div>
+      <button class="btn btn-xs" style="margin-top:8px" onclick="copyTrip('${trip.week_key}')">Copy to new trip</button>
     </div>`;
   }).join('')+'</div>';
 }
-async function copyWeek(fromKey){
-  if(!confirm(`Copy plan from ${weekLabel(fromKey)} to this week?`))return;
-  const wk=getWeekKey();const from=weeks[fromKey];
-  weeks[wk]={week_key:wk,plan:JSON.parse(JSON.stringify(from.plan||{})),notes:JSON.parse(JSON.stringify(from.notes||{})),submitted:false,shopping:{}};
-  await saveWeek(wk);switchTab('plan');
-}
-
-/* ---- WEEK ITEMS PANEL ---- */
-function renderWeekItemsPanel(){
-  const wk=getWeekKey();
-  const week=getWeek(wk);
-  const weekItems=week.weekItems||[];
-
-  // Render added items as removable chips
-  const list=document.getElementById('week-items-list');
-  if(list){
-    list.innerHTML=weekItems.length
-      ?weekItems.map((item,idx)=>`
-        <div style="display:inline-flex;align-items:center;gap:5px;background:var(--blue-bg);border:0.5px solid rgba(55,138,221,0.3);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--blue-text)">
-          <span>${item.name}${item.qty?' ('+item.qty+')':''}</span>
-          <button onclick="removeWeekItem(${idx})" style="background:none;border:none;cursor:pointer;color:var(--blue-text);font-size:14px;line-height:1;padding:0 0 0 2px">×</button>
-        </div>`).join('')
-      :'<span style="font-size:12px;color:var(--text3)">Nothing added yet</span>';
-  }
-
-  // Render saved items as quick picks
-  const row=document.getElementById('week-saved-items-row');
-  if(row){
-    row.innerHTML=savedItems.map(item=>`
-      <button onclick="addWeekItemFromSaved('${item.id}')" class="quick-pick">${item.name}</button>
-    `).join('');
-  }
-}
-
-async function addWeekItem(){
-  const input=document.getElementById('week-item-input');
-  const name=input.value.trim();if(!name)return;
-  const cat=document.getElementById('week-item-cat').value;
-  // Save to items library if new
-  const existing=savedItems.find(x=>x.name.toLowerCase()===name.toLowerCase());
-  let item=existing;
-  if(!existing){item=await saveItem(name,cat);renderItems();}
-  if(!item)return;
-  const wk=getWeekKey();if(!weeks[wk])weeks[wk]=getWeek(wk);
-  if(!weeks[wk].weekItems)weeks[wk].weekItems=[];
-  weeks[wk].weekItems.push({id:item.id,name:item.name,category:item.category,qty:item.qty||''});
-  input.value='';
-  renderWeekItemsPanel();schedSave(wk);
-}
-
-function addWeekItemFromSaved(iid){
-  const item=savedItems.find(x=>x.id===iid);if(!item)return;
-  const wk=getWeekKey();if(!weeks[wk])weeks[wk]=getWeek(wk);
-  if(!weeks[wk].weekItems)weeks[wk].weekItems=[];
-  // Don't add duplicates
-  if(weeks[wk].weekItems.find(x=>x.id===iid))return;
-  weeks[wk].weekItems.push({id:item.id,name:item.name,category:item.category,qty:item.qty||''});
-  renderWeekItemsPanel();schedSave(wk);
-}
-
-function removeWeekItem(idx){
-  const wk=getWeekKey();
-  if(!weeks[wk]||!weeks[wk].weekItems)return;
-  weeks[wk].weekItems.splice(idx,1);
-  renderWeekItemsPanel();schedSave(wk);
+function copyTrip(tripId){
+  const from=trips.find(t=>t.week_key===tripId);if(!from)return;
+  if(!confirm(`Copy meals from this trip to a new plan?`))return;
+  draft={
+    tripName:'',
+    startDate:todayStr(),
+    dayCount:from.day_count||7,
+    plan:JSON.parse(JSON.stringify(from.plan||{})),
+    notes:{},
+    weekItems:JSON.parse(JSON.stringify(from.week_items||[]))
+  };
+  currentTripId=null;
+  switchTab('plan');
 }
 
 function render(){renderRecipes();}
