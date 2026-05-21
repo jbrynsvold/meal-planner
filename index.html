@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brynsvold Meal Planner</title>
+<title>Jason's Workout Tracker</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -12,7 +12,7 @@
   --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.22);
   --green:#1D9E75;--green-bg:#E1F5EE;--green-text:#085041;
   --blue:#378ADD;--blue-bg:#E6F1FB;--blue-text:#0C447C;
-  --amber-bg:#FAEEDA;--amber-text:#633806;
+  --amber:#E8A020;--amber-bg:#FAEEDA;--amber-text:#633806;
   --purple-bg:#EEEDFE;--purple-text:#3C3489;
   --coral-bg:#FAECE7;--coral-text:#712B13;
   --red:#E24B4A;
@@ -31,154 +31,144 @@
 }}
 body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:100vh}
 .topbar{background:var(--bg);border-bottom:0.5px solid var(--border);padding:0 1rem;position:sticky;top:0;z-index:100}
-.topbar-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:52px}
+.topbar-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:52px}
 .topbar h1{font-size:17px;font-weight:500}
-.sync-status{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0}
-.sync-dot.ok{background:var(--green)}.sync-dot.err{background:var(--red)}.sync-dot.loading{background:#FAC775;animation:pulse 1s infinite}
+.sync-dot.ok{background:var(--green)}.sync-dot.err{background:var(--red)}.sync-dot.loading{background:var(--amber);animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.container{max-width:960px;margin:0 auto;padding:1.25rem 1rem}
+.sync-status{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px}
+.container{max-width:900px;margin:0 auto;padding:1.25rem 1rem}
 .tabs{display:flex;gap:2px;border-bottom:0.5px solid var(--border);margin-bottom:1.5rem;overflow-x:auto}
-.tab{padding:8px 14px;font-size:14px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-0.5px;white-space:nowrap;font-family:var(--font);transition:color .15s,border-color .15s}
+.tab{padding:8px 12px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-0.5px;white-space:nowrap;font-family:var(--font);transition:color .15s,border-color .15s}
 .tab.active{color:var(--text);border-bottom-color:var(--text)}.tab:hover:not(.active){color:var(--text)}
 .view{display:none}.view.active{display:block}
-.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
-.section-header h2{font-size:16px;font-weight:500}
 .btn{padding:8px 14px;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-family:var(--font);transition:background .15s;white-space:nowrap}
 .btn:hover{background:var(--bg2)}.btn-primary{background:var(--text);color:var(--bg);border-color:var(--text)}.btn-primary:hover{opacity:.85}
 .btn-green{background:var(--green);color:#E1F5EE;border-color:var(--green)}.btn-green:hover{opacity:.85}
 .btn-sm{padding:5px 10px;font-size:13px}.btn-xs{padding:3px 8px;font-size:12px}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
+.section-header h2{font-size:16px;font-weight:500}
 .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
 .filter-btn{font-size:12px;padding:4px 10px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
 .filter-btn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
-.recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin-bottom:1.5rem}
-.recipe-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;transition:border-color .15s;position:relative}
-.recipe-card:hover{border-color:var(--border2)}
-.recipe-card h3{font-size:14px;font-weight:500;margin-bottom:4px;padding-right:80px}
-.recipe-card .meta{font-size:12px;color:var(--text2);margin-bottom:6px;line-height:1.5}
-.tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:var(--radius);margin-right:3px;margin-top:4px}
-.tag-protein{background:var(--blue-bg);color:var(--blue-text)}.tag-seafood{background:var(--purple-bg);color:var(--purple-text)}
-.tag-quick{background:var(--green-bg);color:var(--green-text)}.tag-slow{background:var(--amber-bg);color:var(--amber-text)}
-.tag-lunch{background:#EAF3DE;color:#27500A}.tag-pasta{background:var(--coral-bg);color:var(--coral-text)}
-.tag-soup{background:#F1EFE8;color:#444}.tag-snack{background:var(--purple-bg);color:var(--purple-text)}
-.tag-other{background:var(--bg2);color:var(--text2)}.tag-drinks{background:var(--blue-bg);color:var(--blue-text)}
-.tag-household{background:#F1EFE8;color:#444}.tag-produce{background:#EAF3DE;color:#27500A}
-.tag-dairy{background:var(--amber-bg);color:var(--amber-text)}.tag-grains{background:var(--coral-bg);color:var(--coral-text)}
-.card-actions{position:absolute;top:8px;right:8px;display:flex;gap:3px}
-.icon-btn{background:none;border:0.5px solid var(--border);cursor:pointer;color:var(--text3);font-size:12px;padding:2px 7px;border-radius:4px;font-family:var(--font)}
-.icon-btn:hover{color:var(--text);background:var(--bg2);border-color:var(--border2)}.icon-btn.del:hover{color:var(--red);border-color:var(--red)}
-.form-panel{background:var(--bg2);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem}
-.form-panel h3{font-size:15px;font-weight:500;margin-bottom:1rem}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.phase-card{border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;border:0.5px solid var(--border)}
+.phase-card.p1{background:var(--green-bg);border-color:var(--green)}
+.phase-card.p2{background:var(--blue-bg);border-color:var(--blue)}
+.phase-card.p3{background:var(--amber-bg);border-color:var(--amber)}
+.phase-card .phase-title{font-size:13px;font-weight:500;margin-bottom:3px}
+.phase-card .phase-desc{font-size:12px;line-height:1.6;opacity:.85}
+.mood-bar{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;margin-bottom:1.25rem}
+.mood-bar h3{font-size:13px;font-weight:500;color:var(--text2);margin-bottom:10px}
+.mood-options{display:flex;gap:8px;flex-wrap:wrap}
+.mood-btn{font-size:13px;padding:6px 14px;border-radius:20px;border:0.5px solid var(--border);background:var(--bg2);color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
+.mood-btn:hover{border-color:var(--border2);color:var(--text)}
+.mood-btn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.rec-card{border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;border:2px solid var(--green);background:var(--green-bg)}
+.rec-card .rec-label{font-size:11px;font-weight:500;color:var(--green-text);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.rec-card .rec-title{font-size:15px;font-weight:500;margin-bottom:4px}
+.rec-card .rec-why{font-size:12px;color:var(--green-text);line-height:1.5;margin-bottom:10px}
+.workout-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:1.5rem}
+.workout-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;cursor:pointer;transition:border-color .15s}
+.workout-card:hover{border-color:var(--border2)}
+.workout-card.selected{border:2px solid var(--blue);background:var(--blue-bg)}
+.workout-card.recommended{border:2px solid var(--green)}
+.workout-card h3{font-size:14px;font-weight:500;margin-bottom:4px}
+.workout-card .meta{font-size:12px;color:var(--text2);margin-bottom:8px}
+.tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:var(--radius);margin-right:3px;margin-top:2px}
+.tag-strength{background:var(--blue-bg);color:var(--blue-text)}
+.tag-mobility{background:var(--purple-bg);color:var(--purple-text)}
+.tag-kettlebell{background:var(--amber-bg);color:var(--amber-text)}
+.tag-rehab{background:#FEE4E4;color:#8B1A1A}
+.tag-30{background:var(--coral-bg);color:var(--coral-text)}
+.workout-detail{background:var(--bg2);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
+.workout-detail h3{font-size:15px;font-weight:500;margin-bottom:1rem}
+.ex-item{border-bottom:0.5px solid var(--border)}
+.ex-item:last-of-type{border-bottom:none}
+.ex-header{display:flex;justify-content:space-between;align-items:center;padding:8px 0;cursor:pointer}
+.ex-name{font-size:13px;font-weight:500}
+.ex-sets{font-size:12px;color:var(--text2);margin-right:8px}
+.ex-toggle{font-size:11px;color:var(--text3);flex-shrink:0}
+.ex-tip{font-size:12px;color:var(--text2);line-height:1.6;padding:0 0 10px 0;display:none}
+.ex-tip.open{display:block}
+.ex-tip .tip-what{font-weight:500;color:var(--text);margin-bottom:3px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.stat-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;text-align:center}
+.stat-card .val{font-size:24px;font-weight:500}
+.stat-card .lbl{font-size:11px;color:var(--text3);margin-top:2px}
+.progress-wrap{margin-bottom:1.5rem}
+.progress-bar-bg{background:var(--bg2);border-radius:var(--radius);height:10px;overflow:hidden;margin-bottom:6px}
+.progress-bar-fill{height:100%;background:var(--green);border-radius:var(--radius);transition:width .4s}
+.progress-label{font-size:12px;color:var(--text2)}
+.phase-badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.phase-badge{font-size:12px;padding:4px 12px;border-radius:var(--radius);border:0.5px solid var(--border);color:var(--text2);background:var(--bg)}
+.phase-badge.active-phase{background:var(--green-bg);color:var(--green-text);border-color:var(--green)}
+.dot-section{margin-bottom:1.25rem}
+.dot-section-label{font-size:11px;color:var(--text3);margin-bottom:6px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.dot-grid{display:grid;grid-template-columns:repeat(15,1fr);gap:4px}
+.dot{aspect-ratio:1;border-radius:3px;background:var(--bg2);border:0.5px solid var(--border)}
+.dot.done{background:var(--green);border-color:#0F6E56}
+.dot.rest{background:var(--blue-bg);border-color:rgba(55,138,221,0.4)}
+.log-entry{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:13px}
+.log-entry:last-child{border-bottom:none}
+.log-entry .entry-name{font-weight:500}
+.log-entry .entry-meta{color:var(--text2);font-size:12px}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:2px 5px}
+.del-btn:hover{color:var(--red)}
+.goal-banner{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.goal-banner .goal-label{font-size:12px;color:var(--text3);margin-bottom:2px}
+.goal-banner .goal-text{font-size:15px;font-weight:500}
+.goal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:1.5rem}
+.goal-option{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;cursor:pointer;transition:border-color .15s}
+.goal-option:hover{border-color:var(--blue)}
+.goal-option.selected{border:2px solid var(--green);background:var(--green-bg)}
+.goal-option h3{font-size:14px;font-weight:500;margin-bottom:4px}
+.goal-option p{font-size:12px;color:var(--text2);line-height:1.5}
+.goal-cat{font-size:11px;padding:2px 7px;border-radius:var(--radius);background:var(--bg2);color:var(--text2);border:0.5px solid var(--border);display:inline-block;margin-top:6px}
+
+/* PR / Baseline styles */
+.pr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:1.5rem}
+.pr-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;position:relative}
+.pr-card h3{font-size:14px;font-weight:500;margin-bottom:8px;padding-right:60px}
+.pr-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:4px}
+.pr-row .label{color:var(--text3)}
+.pr-row .val{font-weight:500;color:var(--text)}
+.pr-row .delta{font-size:11px;padding:1px 6px;border-radius:var(--radius);background:var(--green-bg);color:var(--green-text)}
+.pr-row .delta.neg{background:var(--coral-bg);color:var(--coral-text)}
+.pr-edit-btn{position:absolute;top:10px;right:10px;background:none;border:0.5px solid var(--border);cursor:pointer;color:var(--text3);font-size:12px;padding:2px 8px;border-radius:4px;font-family:var(--font)}
+.pr-edit-btn:hover{color:var(--text);background:var(--bg2)}
+.pr-form{background:var(--bg2);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem}
+.pr-form h3{font-size:15px;font-weight:500;margin-bottom:1rem}
+.pr-exercise-select{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin-bottom:1rem;max-height:240px;overflow-y:auto}
+.pr-ex-option{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:7px 10px;font-size:12px;cursor:pointer;transition:border-color .15s}
+.pr-ex-option:hover{border-color:var(--blue)}
+.pr-ex-option.selected{border:2px solid var(--blue);background:var(--blue-bg);color:var(--blue-text)}
+.input-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
 .form-group{display:flex;flex-direction:column;gap:4px}
 .form-group label{font-size:12px;color:var(--text2)}
-.form-group input,.form-group select,.form-group textarea{font-size:14px;padding:7px 10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:var(--font)}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--blue)}
-.form-group textarea{resize:vertical;min-height:60px}
-.ing-lbl{font-size:13px;font-weight:500;color:var(--text2);margin:10px 0 4px}
-.ing-hint{font-weight:400;font-size:11px;color:var(--text3)}
-.ing-row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
-.ing-row input{flex:1;padding:6px 8px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px}
-.ing-row .qty{width:60px;flex:none}.ing-row .unit{width:65px;flex:none}
-.staple-toggle{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text3);white-space:nowrap;cursor:pointer}
-.staple-toggle input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--green);flex:none}
-.form-actions{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap}
+.form-group input,.form-group select{font-size:14px;padding:7px 10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:var(--font)}
+.form-group input:focus{outline:none;border-color:var(--blue)}
 
-/* Trip config bar */
-.trip-config{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
-.trip-config .form-group{margin:0}
-.trip-config label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px}
-.trip-config input[type=text],.trip-config input[type=date]{font-size:14px;padding:6px 10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:var(--font)}
-.trip-config input[type=text]{width:220px}.trip-config input[type=date]{width:160px}
-.day-count-ctrl{display:flex;align-items:center;gap:8px}
-.day-count-ctrl button{width:28px;height:28px;border-radius:50%;border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font)}
-.day-count-ctrl button:hover{background:var(--bg2)}
-.day-count-ctrl span{font-size:14px;font-weight:500;min-width:20px;text-align:center}
+/* Weight chart */
+.chart-wrap{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem}
+.chart-wrap h3{font-size:15px;font-weight:500;margin-bottom:1rem}
+.chart-area{width:100%;height:180px;position:relative}
+svg.weight-chart{width:100%;height:100%}
+.weigh-in-form{background:var(--bg2);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem;display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+.weigh-in-form .form-group{flex:1;min-width:140px}
+.weigh-in-log{display:flex;flex-direction:column;gap:0}
 
-/* Week grid */
-.week-grid{display:grid;gap:6px;margin-bottom:1rem}
-.day-col{display:flex;flex-direction:column;gap:4px}
-.day-label{font-size:11px;font-weight:500;color:var(--text2);text-align:center;padding-bottom:4px;border-bottom:0.5px solid var(--border);line-height:1.4}
-.day-label .day-name{font-size:10px;color:var(--text3)}
-.day-slot{min-height:72px;background:var(--bg2);border-radius:var(--radius);border:0.5px solid var(--border);padding:5px;display:flex;flex-direction:column;gap:3px}
-.planned-meal{background:var(--bg);border:0.5px solid var(--border);border-radius:5px;padding:4px 6px;font-size:11px;display:flex;justify-content:space-between;align-items:flex-start;gap:2px;line-height:1.3}
-.planned-meal.is-item{border-color:rgba(55,138,221,0.3);background:var(--blue-bg)}
-.planned-meal .rm{color:var(--text3);cursor:pointer;flex-shrink:0;background:none;border:none;font-size:13px;line-height:1;padding:0}
-.planned-meal .rm:hover{color:var(--red)}
-.add-to-day{font-size:20px;color:var(--text3);text-align:center;cursor:pointer;border-radius:4px;line-height:1.4;margin-top:auto}
-.add-to-day:hover{color:var(--text);background:var(--bg)}
-.day-note-input{width:100%;font-size:11px;padding:3px 5px;border:0.5px solid var(--border);border-radius:4px;background:var(--bg);color:var(--text2);font-family:var(--font);resize:none}
-.day-note-input::placeholder{color:var(--text3)}
-
-/* Picker */
-.picker-panel{background:var(--bg2);border-radius:var(--radius-lg);padding:1rem;margin-bottom:1rem;border:0.5px solid var(--border)}
-.picker-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.picker-header h4{font-size:14px;font-weight:500}
-.picker-close{background:none;border:none;cursor:pointer;font-size:20px;color:var(--text2);line-height:1}
-.picker-tabs{display:flex;gap:4px;margin-bottom:10px}
-.picker-tab{font-size:13px;padding:5px 12px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
-.picker-tab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
-.picker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;max-height:220px;overflow-y:auto}
-.picker-item{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:7px 9px;font-size:12px;cursor:pointer;transition:border-color .15s;line-height:1.4}
-.picker-item:hover{border-color:var(--blue);color:var(--blue-text)}
-.picker-item .item-sub{color:var(--text3);font-size:11px}
-.freeform-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-.freeform-row input{flex:1;min-width:140px;padding:7px 10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px}
-.freeform-row input:focus{outline:none;border-color:var(--blue)}
-.freeform-row select{padding:7px 8px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px}
-.quick-pick{font-size:12px;padding:4px 10px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
-.quick-pick:hover{border-color:var(--blue);color:var(--blue-text)}
-
-/* Items this week */
-.week-items-panel{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;margin-bottom:1rem}
-.week-items-panel h3{font-size:14px;font-weight:500;margin-bottom:4px}
-.week-items-panel .sub{font-size:12px;color:var(--text3);margin-bottom:10px}
-.item-chip{display:inline-flex;align-items:center;gap:5px;background:var(--blue-bg);border:0.5px solid rgba(55,138,221,0.3);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--blue-text)}
-.item-chip button{background:none;border:none;cursor:pointer;color:var(--blue-text);font-size:14px;line-height:1;padding:0 0 0 2px}
-
-.submit-bar{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.submit-bar p{font-size:13px;color:var(--text2);flex:1}
-
-/* This trip */
-.trip-day-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:1.5rem}
-.trip-day-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:.75rem}
-.trip-day-card .day-title{font-size:11px;font-weight:500;color:var(--text2);margin-bottom:6px}
-.trip-day-card .meal-name{font-size:13px;margin-bottom:3px;line-height:1.4}
-.trip-day-card .meal-name.is-item{color:var(--blue-text)}
-.trip-day-card .day-note{font-size:11px;color:var(--text3);margin-top:5px;font-style:italic;border-top:0.5px solid var(--border);padding-top:4px}
-
-.shop-section{margin-bottom:1.5rem}
-.shop-section h3{font-size:11px;font-weight:500;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
-.shop-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)}
-.shop-item:last-child{border-bottom:none}
-.shop-item input[type=checkbox]{width:17px;height:17px;cursor:pointer;flex-shrink:0;accent-color:var(--green)}
-.shop-item label{font-size:14px;cursor:pointer;flex:1;line-height:1.4}
-.shop-item.checked label{text-decoration:line-through;color:var(--text3)}
-
-/* Past trips */
-.trips-list{display:flex;flex-direction:column;gap:8px}
-.trip-item{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem}
-.trip-item h3{font-size:14px;font-weight:500;margin-bottom:2px}
-.trip-item .trip-date{font-size:12px;color:var(--text3);margin-bottom:6px}
-.trip-item .meal-preview{font-size:12px;color:var(--text2);line-height:1.7}
-
-/* Items tab */
-.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:1.5rem}
-.item-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:.85rem;position:relative}
-.item-card h3{font-size:14px;font-weight:500;padding-right:70px;margin-bottom:3px}
-.item-card .meta{font-size:12px;color:var(--text2)}
 .empty-state{text-align:center;padding:3rem 1rem;color:var(--text3);font-size:14px}
-@media(max-width:640px){
-  .form-row{grid-template-columns:1fr}
-  .trip-config input[type=text]{width:100%}
-  .trip-day-grid{grid-template-columns:repeat(2,1fr)}
+@media(max-width:600px){
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .dot-grid{grid-template-columns:repeat(10,1fr)}
+  .input-row{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
 <div class="topbar">
   <div class="topbar-inner">
-    <h1>🍽 Brynsvold Meal Planner</h1>
+    <h1>💪 90-Day Tracker</h1>
     <div class="sync-status">
       <div class="sync-dot loading" id="sync-dot"></div>
       <span id="sync-label">Loading...</span>
@@ -187,345 +177,397 @@ body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:
 </div>
 <div class="container">
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('recipes')">Recipes</button>
-    <button class="tab" onclick="switchTab('items')">Items</button>
-    <button class="tab" onclick="switchTab('plan')">Plan trip</button>
-    <button class="tab" onclick="switchTab('thistrip')">This trip</button>
-    <button class="tab" onclick="switchTab('history')">Past trips</button>
+    <button class="tab active" onclick="switchTab('today')">Today</button>
+    <button class="tab" onclick="switchTab('progress')">Progress</button>
+    <button class="tab" onclick="switchTab('records')">Records</button>
+    <button class="tab" onclick="switchTab('weight')">Weight</button>
+    <button class="tab" onclick="switchTab('valgus')">🦵 Knee fix</button>
+    <button class="tab" onclick="switchTab('library')">Library</button>
+    <button class="tab" onclick="switchTab('goal')">Goal</button>
   </div>
 
-  <!-- RECIPES -->
-  <div id="view-recipes" class="view active">
-    <div class="section-header">
-      <h2>Recipe library</h2>
-      <button class="btn btn-sm" id="toggle-form-btn" onclick="toggleForm()">+ Add recipe</button>
+  <!-- TODAY -->
+  <div id="view-today" class="view active">
+    <div id="phase-card-today"></div>
+    <div id="daily-reset-status"></div>
+    <div id="goal-banner-today" class="goal-banner" style="display:none">
+      <div><div class="goal-label">Working toward</div><div class="goal-text" id="goal-text-today"></div></div>
+      <button class="btn btn-xs" onclick="switchTab('goal')">Change</button>
     </div>
-    <div class="filters" id="recipe-filters">
-      <button class="filter-btn active" onclick="filterRecipes('all',this)">All</button>
-      <button class="filter-btn" onclick="filterRecipes('protein',this)">Protein</button>
-      <button class="filter-btn" onclick="filterRecipes('seafood',this)">Seafood</button>
-      <button class="filter-btn" onclick="filterRecipes('quick',this)">Quick</button>
-      <button class="filter-btn" onclick="filterRecipes('slow',this)">Slow cooker</button>
-      <button class="filter-btn" onclick="filterRecipes('lunch',this)">Lunch</button>
-      <button class="filter-btn" onclick="filterRecipes('pasta',this)">Pasta & grains</button>
-      <button class="filter-btn" onclick="filterRecipes('soup',this)">Soups & stews</button>
-      <button class="filter-btn" onclick="filterRecipes('snack',this)">Snacks</button>
+    <div id="no-goal-banner" class="goal-banner">
+      <span style="font-size:14px;color:var(--text3)">No goal set yet —</span>
+      <button class="btn btn-sm btn-primary" onclick="switchTab('goal')">Pick a goal →</button>
     </div>
-    <div class="recipe-grid" id="recipe-grid"></div>
-    <div id="recipe-form" style="display:none">
-      <div class="form-panel">
-        <h3 id="form-title">New recipe</h3>
-        <div class="form-row">
-          <div class="form-group" style="grid-column:1/-1">
-            <label>Recipe name</label>
-            <input type="text" id="f-name" placeholder="e.g. Sheet pan chicken thighs">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Category</label>
-            <select id="f-cat">
-              <option value="protein">Protein</option>
-              <option value="seafood">Seafood</option>
-              <option value="quick">Quick (under 30 min)</option>
-              <option value="slow">Slow cooker</option>
-              <option value="lunch">Lunch / lighter</option>
-              <option value="pasta">Pasta & grains</option>
-              <option value="soup">Soups & stews</option>
-              <option value="snack">Snack</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Cook time (mins)</label>
-            <input type="number" id="f-time" placeholder="30">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Servings</label>
-            <input type="number" id="f-servings" placeholder="4">
-          </div>
-          <div class="form-group">
-            <label>Source URL (optional)</label>
-            <input type="text" id="f-url" placeholder="https://...">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group" style="grid-column:1/-1">
-            <label>Notes / instructions</label>
-            <textarea id="f-notes" placeholder="Cooking temp, tips, variations..."></textarea>
-          </div>
-        </div>
-        <div class="ing-lbl">Ingredients <span class="ing-hint">(tick "staple" for things you always have — excluded from shopping list)</span></div>
-        <div id="ing-rows"></div>
-        <button class="btn btn-sm" onclick="addIngRow()" style="margin-bottom:10px">+ Add ingredient</button>
-        <div class="form-actions">
-          <button class="btn btn-primary" onclick="saveRecipe()">Save recipe</button>
-          <button class="btn" onclick="cancelForm()">Cancel</button>
-        </div>
+    <div class="mood-bar">
+      <h3>How are you feeling today?</h3>
+      <div class="mood-options">
+        <button class="mood-btn" onclick="setMood('fired',this)">🔥 Fired up</button>
+        <button class="mood-btn" onclick="setMood('good',this)">💪 Feeling good</button>
+        <button class="mood-btn" onclick="setMood('average',this)">😐 Average</button>
+        <button class="mood-btn" onclick="setMood('low',this)">😴 Low energy</button>
+        <button class="mood-btn" onclick="setMood('sore',this)">🤕 Sore / stiff</button>
       </div>
     </div>
+    <div id="rec-card" style="display:none" class="rec-card">
+      <div class="rec-label">Recommended for you</div>
+      <div class="rec-title" id="rec-title"></div>
+      <div class="rec-why" id="rec-why"></div>
+      <button class="btn btn-green btn-sm" onclick="selectRecommended()">Select this workout</button>
+    </div>
+    <div class="section-header" style="margin-top:.5rem"><h2>Browse workouts</h2></div>
+    <div class="filters" id="today-filters">
+      <button class="filter-btn active" onclick="todayFilter('all',this)">All</button>
+      <button class="filter-btn" onclick="todayFilter('strength',this)">Strength</button>
+      <button class="filter-btn" onclick="todayFilter('mobility',this)">Mobility</button>
+      <button class="filter-btn" onclick="todayFilter('kettlebell',this)">Kettlebell</button>
+      <button class="filter-btn" onclick="todayFilter('rehab',this)">🦵 Rehab</button>
+      <button class="filter-btn" onclick="todayFilter('daily',this)">☀️ Daily reset</button>
+      <button class="filter-btn" onclick="todayFilter('15',this)">15 min</button>
+      <button class="filter-btn" onclick="todayFilter('30',this)">30 min</button>
+    </div>
+    <div class="workout-grid" id="today-grid"></div>
+    <div id="selected-detail" style="display:none"></div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:4px">
+      <span style="font-size:13px;color:var(--text2)">Or log a rest / recovery day:</span>
+      <button class="btn btn-sm" onclick="logRest()">Log rest day</button>
+    </div>
   </div>
 
-  <!-- ITEMS -->
-  <div id="view-items" class="view">
+  <!-- PROGRESS -->
+  <div id="view-progress" class="view">
     <div class="section-header">
-      <h2>Saved items</h2>
-      <button class="btn btn-sm" id="toggle-item-form-btn" onclick="toggleItemForm()">+ Add item</button>
+      <h2>90-day progress</h2>
+      <button class="btn btn-sm" onclick="if(confirm('Reset all progress?'))resetProgress()">Reset</button>
     </div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Single things to buy — snacks, drinks, household. Add to any trip and they show up on the shopping list.</p>
-    <div id="item-form" style="display:none">
-      <div class="form-panel">
-        <h3 id="item-form-title">New item</h3>
-        <div class="form-row">
-          <div class="form-group" style="grid-column:1/-1">
-            <label>Item name</label>
-            <input type="text" id="fi-name" placeholder="e.g. Hot Cheetos bag">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Quantity (optional)</label>
-            <input type="text" id="fi-qty" placeholder="e.g. 1 bag, 6 pack">
-          </div>
-          <div class="form-group">
-            <label>Category</label>
-            <select id="fi-cat">
-              <option value="snack">Snack</option>
-              <option value="produce">Produce</option>
-              <option value="protein">Protein</option>
-              <option value="dairy">Dairy</option>
-              <option value="grains">Grains & bread</option>
-              <option value="drinks">Drinks</option>
-              <option value="household">Household</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group" style="grid-column:1/-1">
-            <label>Notes (optional)</label>
-            <input type="text" id="fi-notes" placeholder="e.g. Oikos brand, get the big bag">
-          </div>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-primary" onclick="saveItem()">Save item</button>
-          <button class="btn" onclick="cancelItemForm()">Cancel</button>
-        </div>
+    <div id="goal-banner-progress" class="goal-banner" style="display:none">
+      <div><div class="goal-label">Working toward</div><div class="goal-text" id="goal-text-progress"></div></div>
+    </div>
+    <div class="stats-row" id="stats-row"></div>
+    <div class="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-bar" style="width:0%"></div></div>
+      <div class="progress-label" id="prog-label"></div>
+    </div>
+    <div class="phase-badges">
+      <div class="phase-badge" id="phase-b1">Phase 1 — Foundation (1–30)</div>
+      <div class="phase-badge" id="phase-b2">Phase 2 — Build (31–60)</div>
+      <div class="phase-badge" id="phase-b3">Phase 3 — Peak (61–90)</div>
+    </div>
+    <div style="background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem">
+      <div style="font-size:14px;font-weight:500;margin-bottom:1rem">Last 12 weeks</div>
+      <div id="calendar-grid"></div>
+    </div>
+    <div class="dot-section"><div class="dot-section-label">Phase 1 — Foundation</div><div class="dot-grid" id="dots-1"></div></div>
+    <div class="dot-section"><div class="dot-section-label">Phase 2 — Build</div><div class="dot-grid" id="dots-2"></div></div>
+    <div class="dot-section" style="margin-bottom:1.5rem"><div class="dot-section-label">Phase 3 — Peak</div><div class="dot-grid" id="dots-3"></div></div>
+    <div class="section-header"><h2>Recent sessions</h2></div>
+    <div id="recent-log"></div>
+  </div>
+
+  <!-- RECORDS -->
+  <div id="view-records" class="view">
+    <div class="section-header">
+      <h2>Personal records</h2>
+      <button class="btn btn-sm btn-primary" onclick="togglePRForm()">+ Log record</button>
+    </div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Track your baseline and PRs for each exercise. See how far you've come.</p>
+
+    <div id="pr-form" style="display:none" class="pr-form">
+      <h3 id="pr-form-title">Log a record</h3>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px">Pick an exercise:</div>
+      <div class="pr-exercise-select" id="pr-exercise-select"></div>
+      <div style="font-size:12px;color:var(--text2);margin:10px 0 6px">Record type:</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <button class="filter-btn active" id="type-baseline" onclick="setPRType('baseline',this)">Baseline (Day 1)</button>
+        <button class="filter-btn" id="type-pr" onclick="setPRType('pr',this)">New PR</button>
+      </div>
+      <div class="input-row">
+        <div class="form-group"><label>Weight (lbs)</label><input type="number" id="pr-weight" placeholder="e.g. 25" min="0" step="2.5"></div>
+        <div class="form-group"><label>Reps</label><input type="number" id="pr-reps" placeholder="e.g. 12" min="1"></div>
+        <div class="form-group"><label>Sets</label><input type="number" id="pr-sets" placeholder="e.g. 3" min="1"></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" onclick="saveRecord()">Save record</button>
+        <button class="btn btn-sm" onclick="togglePRForm()">Cancel</button>
       </div>
     </div>
-    <div class="items-grid" id="items-grid"></div>
+
+    <div id="pr-cards"></div>
   </div>
 
-  <!-- PLAN TRIP -->
-  <div id="view-plan" class="view">
-    <div class="section-header">
-      <h2>Plan a trip</h2>
-    </div>
-
-    <!-- Trip config -->
-    <div class="trip-config">
+  <!-- WEIGHT -->
+  <div id="view-weight" class="view">
+    <div class="section-header"><h2>Weight tracking</h2></div>
+    <div class="weigh-in-form">
       <div class="form-group">
-        <label>Trip name</label>
-        <input type="text" id="trip-name-input" placeholder="e.g. Walmart run May 19">
+        <label>Weight (lbs)</label>
+        <input type="number" id="wi-weight" placeholder="e.g. 185" step="0.1" min="50">
       </div>
       <div class="form-group">
-        <label>Start date</label>
-        <input type="date" id="trip-start-date">
+        <label>Date</label>
+        <input type="date" id="wi-date">
       </div>
-      <div class="form-group">
-        <label>Days</label>
-        <div class="day-count-ctrl">
-          <button onclick="changeDayCount(-1)">−</button>
-          <span id="day-count-display">7</span>
-          <button onclick="changeDayCount(1)">+</button>
-        </div>
-      </div>
-      <button class="btn btn-sm" onclick="applyTripConfig()">Update</button>
+      <button class="btn btn-primary btn-sm" onclick="saveWeighIn()">Log weight</button>
     </div>
-
-    <div class="filters" id="plan-filters">
-      <button class="filter-btn active" onclick="planFilter('all',this)">All recipes</button>
-      <button class="filter-btn" onclick="planFilter('protein',this)">Protein</button>
-      <button class="filter-btn" onclick="planFilter('seafood',this)">Seafood</button>
-      <button class="filter-btn" onclick="planFilter('quick',this)">Quick</button>
-      <button class="filter-btn" onclick="planFilter('slow',this)">Slow cooker</button>
-      <button class="filter-btn" onclick="planFilter('lunch',this)">Lunch</button>
-      <button class="filter-btn" onclick="planFilter('pasta',this)">Pasta & grains</button>
-      <button class="filter-btn" onclick="planFilter('soup',this)">Soups & stews</button>
-      <button class="filter-btn" onclick="planFilter('snack',this)">Snacks</button>
+    <div class="chart-wrap" id="weight-chart-wrap" style="display:none">
+      <h3>Weight over time</h3>
+      <div class="chart-area"><svg id="weight-svg" class="weight-chart"></svg></div>
+      <div id="weight-stats" style="display:flex;gap:20px;flex-wrap:wrap;margin-top:1rem;font-size:13px"></div>
     </div>
-
-    <div id="picker-panel" style="display:none" class="picker-panel">
-      <div class="picker-header">
-        <h4>Add to <span id="picker-day-label"></span></h4>
-        <button class="picker-close" onclick="closePicker()">×</button>
-      </div>
-      <div class="picker-tabs">
-        <button class="picker-tab active" onclick="switchPickerTab('recipes',this)">Recipes</button>
-        <button class="picker-tab" onclick="switchPickerTab('items',this)">Items</button>
-      </div>
-      <div id="picker-recipes-pane">
-        <div class="picker-grid" id="picker-grid"></div>
-      </div>
-      <div id="picker-items-pane" style="display:none">
-        <div style="font-size:12px;color:var(--text2);margin-bottom:6px">Saved items:</div>
-        <div class="picker-grid" id="picker-items-grid"></div>
-        <div class="freeform-row">
-          <input type="text" id="freeform-input" placeholder="Or type a new item...">
-          <select id="freeform-cat">
-            <option value="snack">Snack</option>
-            <option value="produce">Produce</option>
-            <option value="protein">Protein</option>
-            <option value="dairy">Dairy</option>
-            <option value="grains">Grains</option>
-            <option value="drinks">Drinks</option>
-            <option value="household">Household</option>
-            <option value="other">Other</option>
-          </select>
-          <button class="btn btn-sm btn-primary" onclick="addFreeformItem()">Add</button>
-        </div>
-      </div>
+    <div class="section-header" style="margin-top:.5rem">
+      <h2>Log history</h2>
+      <button class="btn btn-xs" onclick="if(confirm('Clear all weigh-ins?'))clearWeighIns()">Clear all</button>
     </div>
-
-    <div class="week-grid" id="plan-week-grid"></div>
-
-    <!-- Items this trip -->
-    <div class="week-items-panel">
-      <h3>Items this trip</h3>
-      <div class="sub">Snacks, drinks, household — goes straight to shopping list</div>
-      <div id="week-items-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;min-height:24px"></div>
-      <div class="freeform-row">
-        <input type="text" id="week-item-input" placeholder="Add an item..." onkeydown="if(event.key==='Enter')addWeekItem()">
-        <select id="week-item-cat">
-          <option value="snack">Snack</option>
-          <option value="produce">Produce</option>
-          <option value="protein">Protein</option>
-          <option value="dairy">Dairy</option>
-          <option value="grains">Grains</option>
-          <option value="drinks">Drinks</option>
-          <option value="household">Household</option>
-          <option value="other">Other</option>
-        </select>
-        <button class="btn btn-sm btn-primary" onclick="addWeekItem()">Add</button>
-      </div>
-      <div style="margin-top:10px">
-        <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Quick picks from saved items:</div>
-        <div id="week-saved-items-row" style="display:flex;flex-wrap:wrap;gap:5px"></div>
-      </div>
-    </div>
-
-    <div class="submit-bar">
-      <p id="submit-bar-msg"></p>
-      <button class="btn btn-green" onclick="submitTrip()" id="submit-btn">Submit trip</button>
-    </div>
+    <div id="wi-log"></div>
   </div>
 
-  <!-- THIS TRIP -->
-  <div id="view-thistrip" class="view">
-    <div class="section-header">
-      <h2 id="thistrip-title">This trip</h2>
-      <button class="btn btn-sm" onclick="switchTab('plan')">Edit plan</button>
-    </div>
-    <div id="thistrip-meals"></div>
-    <div style="margin-top:1.5rem">
-      <div class="section-header">
-        <h2>Shopping list</h2>
-        <button class="btn btn-sm" onclick="clearChecked()">Clear checked</button>
-      </div>
-      <div id="shopping-content"></div>
-    </div>
+  <!-- VALGUS PROGRESSION -->
+  <div id="view-valgus" class="view">
+    <div class="section-header"><h2>🦵 Knee fix — Valgus correction</h2></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1.25rem">A 4-stage progression to fix your hip collapse, runner's knee, and foot pain. Each stage unlocks after enough total sessions. Work through them in order — don't skip ahead.</p>
+    <div id="valgus-content"></div>
   </div>
 
-  <!-- PAST TRIPS -->
-  <div id="view-history" class="view">
-    <div class="section-header"><h2>Past trips</h2></div>
-    <div id="history-content"></div>
+  <!-- LIBRARY -->
+  <div id="view-library" class="view">
+    <div class="section-header"><h2>Workout library</h2></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Tap any exercise to see what it works and how to do it.</p>
+    <div class="filters" id="lib-filters">
+      <button class="filter-btn active" onclick="libFilter('all',this)">All</button>
+      <button class="filter-btn" onclick="libFilter('strength',this)">Strength</button>
+      <button class="filter-btn" onclick="libFilter('mobility',this)">Mobility</button>
+      <button class="filter-btn" onclick="libFilter('kettlebell',this)">Kettlebell</button>
+      <button class="filter-btn" onclick="libFilter('15',this)">15 min</button>
+      <button class="filter-btn" onclick="libFilter('30',this)">30 min</button>
+    </div>
+    <div id="library-content"></div>
+  </div>
+
+  <!-- GOAL -->
+  <div id="view-goal" class="view">
+    <div class="section-header"><h2>Pick your stretch goal</h2></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1.25rem">Your north star for the 90 days. Shows up on Today and Progress. Change anytime.</p>
+    <div class="goal-grid" id="goal-grid"></div>
+    <div id="goal-current" style="display:none;margin-top:1rem">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:6px">Current goal:</div>
+      <div style="font-size:15px;font-weight:500;margin-bottom:10px" id="goal-current-text"></div>
+      <button class="btn btn-xs" onclick="clearGoal()">Clear goal</button>
+    </div>
   </div>
 </div>
 
 <script>
 const SUPABASE_URL='https://qzngtdmrlbmigzmbnnid.supabase.co';
 const SUPABASE_KEY='sb_publishable_WeYWprBTVZahREoBRj4Qgg_5lS6AvYO';
-const H={'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY};
+const H={'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Accept':'application/json'};
 
-const CAT_LABELS={protein:'Protein',seafood:'Seafood',quick:'Quick',slow:'Slow cooker',lunch:'Lunch',pasta:'Pasta & grains',soup:'Soups & stews',snack:'Snack',other:'Other',drinks:'Drinks',household:'Household',produce:'Produce',dairy:'Dairy',grains:'Grains'};
-const SHOP_CATS={
-  produce:['broccoli','asparagus','tomato','lettuce','avocado','lime','lemon','onion','garlic','basil','corn','pea','carrot','coleslaw','apple','pepper','zucchini','spinach','celery','mushroom','potato','sweet potato','cabbage','ginger','cilantro','parsley','green onion','scallion','cucumber'],
-  protein:['chicken','beef','pork','salmon','tuna','shrimp','turkey','egg','bean','lentil','tofu','sausage','bacon','ground'],
-  dairy:['cheese','cheddar','parmesan','mozzarella','sour cream','cream','butter','milk','yogurt'],
-  grains:['rice','pasta','taco','tortilla','bun','bread','noodle','quinoa','oat','flour'],
-  snack:['cheeto','chip','cracker','popcorn','pretzel','cookie','granola','bar','gummy'],
-  drinks:['juice','soda','water','beer','wine','coffee','tea'],
-  household:['paper','soap','towel','detergent','trash','bag','foil','wrap'],
-  pantry:[]
-};
-const DEFAULT_RECIPES=[
-  {id:'r1',name:'Sheet pan chicken thighs',cat:'protein',time:40,servings:4,notes:'425°F. Season and roast 35–40 min.',url:'',ingredients:[{qty:'2',unit:'lbs',name:'chicken thighs',staple:false},{qty:'1',unit:'lb',name:'broccoli florets',staple:false},{qty:'3',unit:'tbsp',name:'olive oil',staple:true},{qty:'1',unit:'tsp',name:'garlic powder',staple:true},{qty:'1',unit:'tsp',name:'smoked paprika',staple:true},{qty:'',unit:'',name:'salt and pepper',staple:true}]},
-  {id:'r2',name:'Beef tacos',cat:'quick',time:25,servings:4,notes:'Brown beef with seasoning. Warm shells.',url:'',ingredients:[{qty:'1',unit:'lb',name:'ground beef',staple:false},{qty:'1',unit:'pack',name:'taco shells',staple:false},{qty:'1',unit:'cup',name:'shredded cheddar',staple:false},{qty:'1',unit:'',name:'avocado',staple:false},{qty:'1',unit:'',name:'lime',staple:false},{qty:'1',unit:'',name:'tomato',staple:false},{qty:'1',unit:'pack',name:'taco seasoning',staple:true}]},
-  {id:'r3',name:'Pasta marinara',cat:'pasta',time:20,servings:4,notes:'Boil pasta, warm sauce. Top with parmesan.',url:'',ingredients:[{qty:'1',unit:'lb',name:'pasta',staple:false},{qty:'1',unit:'jar',name:'marinara sauce',staple:false},{qty:'1',unit:'cup',name:'parmesan',staple:false},{qty:'',unit:'',name:'fresh basil',staple:false},{qty:'2',unit:'cloves',name:'garlic',staple:true}]},
-  {id:'r4',name:'Grilled salmon',cat:'seafood',time:20,servings:4,notes:'Marinate 10 min. Grill 4–5 min per side.',url:'',ingredients:[{qty:'4',unit:'',name:'salmon fillets',staple:false},{qty:'2',unit:'tbsp',name:'soy sauce',staple:true},{qty:'1',unit:'tbsp',name:'honey',staple:true},{qty:'1',unit:'',name:'lemon',staple:false},{qty:'1',unit:'lb',name:'asparagus',staple:false}]},
-  {id:'r5',name:'Black bean burrito bowls',cat:'lunch',time:30,servings:4,notes:'Cook rice, warm beans, layer everything.',url:'',ingredients:[{qty:'2',unit:'cans',name:'black beans',staple:false},{qty:'2',unit:'cups',name:'rice',staple:false},{qty:'1',unit:'cup',name:'salsa',staple:false},{qty:'1',unit:'cup',name:'shredded Mexican cheese',staple:false},{qty:'2',unit:'',name:'avocado',staple:false},{qty:'1',unit:'cup',name:'sour cream',staple:false},{qty:'1',unit:'cup',name:'corn',staple:false}]},
-  {id:'r6',name:'Chicken stir fry',cat:'quick',time:25,servings:4,notes:'High heat. Cook chicken, add veg, sauce last.',url:'',ingredients:[{qty:'1.5',unit:'lbs',name:'chicken breast',staple:false},{qty:'1',unit:'bag',name:'stir fry vegetables',staple:false},{qty:'2',unit:'cups',name:'jasmine rice',staple:false},{qty:'3',unit:'tbsp',name:'soy sauce',staple:true},{qty:'1',unit:'tbsp',name:'sesame oil',staple:true}]},
-  {id:'r7',name:'Turkey burgers',cat:'quick',time:25,servings:4,notes:'Season well. Grill or pan fry.',url:'',ingredients:[{qty:'1.5',unit:'lbs',name:'ground turkey',staple:false},{qty:'4',unit:'',name:'burger buns',staple:false},{qty:'1',unit:'',name:'tomato',staple:false},{qty:'1',unit:'',name:'red onion',staple:false},{qty:'4',unit:'slices',name:'cheddar cheese',staple:false},{qty:'',unit:'',name:'lettuce',staple:false}]},
-  {id:'r8',name:'Veggie fried rice',cat:'pasta',time:20,servings:4,notes:'Use day-old rice. High heat.',url:'',ingredients:[{qty:'3',unit:'cups',name:'cooked rice',staple:false},{qty:'3',unit:'',name:'eggs',staple:false},{qty:'1',unit:'bag',name:'frozen peas and carrots',staple:false},{qty:'3',unit:'tbsp',name:'soy sauce',staple:true},{qty:'2',unit:'',name:'green onions',staple:false}]},
-  {id:'r9',name:'Slow cooker Texas pulled pork',cat:'slow',time:480,servings:8,notes:'Low 8hrs or high 4hrs. Shred with forks. Serve on buns with coleslaw.',url:'https://www.allrecipes.com/recipe/92462/',ingredients:[{qty:'4',unit:'lbs',name:'pork shoulder',staple:false},{qty:'1',unit:'cup',name:'chicken broth',staple:true},{qty:'1',unit:'cup',name:'apple cider vinegar',staple:true},{qty:'2',unit:'tbsp',name:'brown sugar',staple:true},{qty:'1',unit:'tbsp',name:'chili powder',staple:true},{qty:'',unit:'',name:'salt and pepper',staple:true},{qty:'6',unit:'',name:'hamburger buns',staple:false},{qty:'1',unit:'bag',name:'coleslaw mix',staple:false}]}
+const PHASE_INFO=[
+  {phase:1,cls:'p1',title:'Phase 1 — Foundation',desc:'Sessions 1–30. Build the habit and fight stiffness. Runner\'s knee priority: do the Hip & Knee Rehab workout at least 2x per week — lateral band walks, clamshells, and glute bridges are your most important exercises right now. Mobility 2x per week. KB swings are your best bang-for-buck. Rest days count.'},
+  {phase:2,cls:'p2',title:'Phase 2 — Build',desc:'Sessions 31–60. Habit is established — now add load. KB complexes and Turkish get-ups unlock here. Aim for 4 active sessions per week. Mobility shifts to maintenance.'},
+  {phase:3,cls:'p3',title:'Phase 3 — Peak',desc:'Sessions 61–90. Full library available. Push harder. Test yourself weekly — max pushups, longest plank, KB endurance. The last week is a victory lap.'}
 ];
 
-let recipes=[],savedItems=[],trips=[];
-let currentTripId=null;
-let editingRecipeId=null,editingItemId=null;
-let recipeFilter='all',planFilterCat='all',pickerTab='recipes',pickerDay=null;
-let saveTimer=null;
+const WORKOUTS=[
+  {id:'w1',name:'Morning mobility flow',focus:'mobility',mins:15,phase:[1,2,3],exercises:[
+    {name:"World's greatest stretch",sets:'5 reps each side',tip:{what:'Hip flexors, thoracic spine, hamstrings',how:'Lunge, plant front foot, drop back knee, rotate torso toward front leg and reach arm up. Hold 2 sec.',watch:"Keep your back knee off the ground. Don't rush it."}},
+    {name:'Hip 90/90 rotations',sets:'10 reps',tip:{what:'Hip internal and external rotation — what you lose from sitting',how:'Sit with both knees bent at 90°, one in front, one to the side. Rotate both hips to switch.',watch:'Keep your butt on the floor the whole time.'}},
+    {name:'Cat-cow',sets:'10 reps',tip:{what:'Full spinal flexion and extension — wakes up your back',how:'On hands and knees. Arch back up (cat), then sag and look up (cow). Slow.',watch:'Breathe with it — exhale on cat, inhale on cow.'}},
+    {name:'Thoracic spine rotations',sets:'8 each side',tip:{what:'Mid-back rotation — what you lose from desk work',how:'Lie on side, knees stacked at 90°. Open top arm back toward floor, follow with eyes.',watch:'Let gravity do the work. No forcing.'}},
+    {name:'Leg swings',sets:'15 each side',tip:{what:'Hip flexor and hamstring mobility, dynamic',how:'Stand on one leg, hold wall. Swing other leg forward and back like a pendulum.',watch:"Keep core tight. Don't let lower back arch as leg swings back."}},
+    {name:'Shoulder circles',sets:'10 each way',tip:{what:'Shoulder mobility and rotator cuff warmup',how:'Arms at sides, make big slow circles forward then reverse.',watch:'Go extra slow on the backward circles — most people are tight there.'}}
+  ]},
+  {id:'w2',name:'Dumbbell upper body',focus:'strength',mins:30,phase:[1,2,3],exercises:[
+    {name:'DB shoulder press',sets:'3×10',tip:{what:'Shoulders, upper traps, triceps',how:'DBs at ear height, palms forward. Press straight up, lower controlled.',watch:"Don't arch your lower back to get the weight up. If you have to, it's too heavy."}},
+    {name:'DB bent-over row',sets:'3×12',tip:{what:'Upper back, lats, rear delts — fixes bad posture',how:'Hinge at hips ~45°, let DBs hang, pull to hips squeezing shoulder blades.',watch:"Don't use momentum. The squeeze at the top is what matters."}},
+    {name:'DB chest press (floor)',sets:'3×12',tip:{what:'Chest, shoulders, triceps',how:'Lie on floor, knees bent. Press up, lower until elbows touch floor.',watch:"The floor limits range of motion — that's fine and easier on the shoulder."}},
+    {name:'DB curls',sets:'3×15',tip:{what:'Biceps',how:'Stand with DBs at sides. Curl both up, elbows pinned. Lower slowly.',watch:'The slow lower is where the strength gains happen.'}},
+    {name:'DB tricep kickbacks',sets:'3×15',tip:{what:'Triceps',how:'Hinge forward, upper arm parallel to floor. Extend forearm back until straight. Hold 1 sec.',watch:'Keep upper arm perfectly still. Only forearm moves.'}},
+    {name:'Pushups',sets:'3×max',tip:{what:'Chest, shoulders, triceps, core',how:'Hands slightly wider than shoulder-width. Lower until chest nearly touches floor. Full lockout.',watch:'Body is a straight line head to heels. No sagging hips.'}}
+  ]},
+  {id:'w3',name:'KB swings + core',focus:'kettlebell',mins:20,phase:[1,2,3],exercises:[
+    {name:'KB two-hand swings',sets:'4×15',tip:{what:'Posterior chain — glutes, hamstrings, lower back. King of KB exercises.',how:'Feet shoulder-width, hinge at hips, let KB swing back, drive hips forward explosively. Power from hip snap, not arms.',watch:"HIP HINGE not a squat. Chest up, back flat. If lower back hurts, you're squatting it."}},
+    {name:'KB deadlift',sets:'3×10',tip:{what:'Glutes, hamstrings, lower back',how:'KB between feet, hinge, grip, drive heels into floor and stand tall.',watch:'Keep KB close to body. Back stays flat.'}},
+    {name:'Plank hold',sets:'3×30 sec',tip:{what:'Core stability — the whole anterior chain',how:'Forearms on floor, body straight. Squeeze glutes and abs.',watch:'30 seconds right beats 2 minutes sloppy. If form breaks, stop.'}},
+    {name:'Dead bug',sets:'3×8 each side',tip:{what:'Deep core stability — protects your lower back',how:'Back flat, arms up, knees at 90°. Lower opposite arm and leg. Press lower back into floor the whole time.',watch:'If lower back lifts off the floor, your range is too big. Shrink it.'}},
+    {name:'KB sumo squat',sets:'3×12',tip:{what:'Glutes, inner thighs, quads',how:'Wide stance, toes out. Hold KB at chest. Squat deep, chest up.',watch:'Wide stance lets you get lower. Use it.'}}
+  ]},
+  {id:'w4',name:'Lower body & hips',focus:'strength',mins:30,phase:[1,2,3],exercises:[
+    {name:'Goblet squat (KB)',sets:'3×12',tip:{what:'Quads, glutes, core — best squat for beginners',how:'Hold KB by horns at chest. Squat down between your knees, chest up.',watch:'KB counterbalance lets you sit more upright and go deeper.'}},
+    {name:'DB Romanian deadlift',sets:'3×10',tip:{what:'Hamstrings and glutes — where most people are weakest',how:'Hold DBs in front of thighs. Hinge at hips, back flat, weights slide down legs. Feel hamstring stretch.',watch:"This is not a squat. Knees barely bend. All hip hinge."}},
+    {name:'Reverse lunges',sets:'3×10 each',tip:{what:'Quads, glutes, balance',how:'Step back, lower back knee toward floor, push up from front foot.',watch:'Easier on knees than forward lunges — right starting point.'}},
+    {name:'Glute bridge',sets:'3×15',tip:{what:'Glutes and hamstrings',how:'Lie on back, knees bent. Drive hips up, squeeze glutes hard at top. Hold 1 sec.',watch:"Squeeze at the top. Don't just bounce up and down."}},
+    {name:'Lateral band walk',sets:'3×15 each',tip:{what:'Glute medius — prevents knee and back problems',how:'Band around ankles. Slight squat. Step sideways maintaining band tension.',watch:"Keep toes forward, maintain squat position. Don't let band snap knees in."}},
+    {name:'Clamshells',sets:'3×15 each side',tip:{what:'Glute medius — key muscle for runner\'s knee prevention',how:'Lie on side, knees bent at 90°, feet stacked. Open top knee up like a clamshell. Lower slowly.',watch:"Don't let hips roll back. Movement only from the hip rotating."}},
+    {name:'Single-leg calf raises',sets:'3×15 each',tip:{what:'Calf, Achilles, foot arch — protects ankle and knee',how:'Stand on one foot. Rise onto toes slowly (2 sec up), lower slowly (3 sec down).',watch:'Slow lowering is where the work is. Keep your arch from collapsing.'}},
+    {name:'Calf raises',sets:'3×20',tip:{what:'Calves — important for ankle stability',how:'Rise up onto toes slowly, lower slowly.',watch:'Slow down the lowering. That is the work.'}}
+  ]},
+  {id:'w5',name:'Quick full body',focus:'strength',mins:15,phase:[1,2,3],exercises:[
+    {name:'KB swings',sets:'3×10',tip:{what:'Posterior chain',how:'Hip hinge, explosive hip snap.',watch:"Hip hinge, not squat."}},
+    {name:'Pushups',sets:'3×10',tip:{what:'Chest, shoulders, triceps, core',how:'Straight body, lower to floor.',watch:'No sagging hips.'}},
+    {name:'DB rows',sets:'3×10',tip:{what:'Upper back',how:'Hinge forward, pull DBs to hips.',watch:'Squeeze shoulder blades at top.'}},
+    {name:'Reverse lunges',sets:'2×8 each',tip:{what:'Quads and glutes',how:'Step back, lower knee, push up.',watch:'Control the descent.'}},
+    {name:'Plank',sets:'2×20 sec',tip:{what:'Core stability',how:'Straight body, squeeze everything.',watch:'Quality over duration.'}}
+  ]},
+  {id:'w6',name:'Deep stretch & recovery',focus:'mobility',mins:15,phase:[1,2,3],exercises:[
+    {name:'Pigeon pose',sets:'90 sec each side',tip:{what:'Hip external rotators and glutes — tightest thing in most people',how:'From lunge, slide front shin across floor so front knee is behind wrist. Sink hips, fold forward.',watch:"If hips don't reach floor, put a towel under the hip. Don't torque your knee."}},
+    {name:'Couch stretch',sets:'60 sec each side',tip:{what:'Hip flexors and quads — undoes sitting damage',how:'Back knee on floor, back foot up on couch. Front leg at 90°, upright torso, squeeze glutes.',watch:'Glute squeeze on the back leg is what makes this work.'}},
+    {name:'Chest opener on floor',sets:'2 min',tip:{what:'Pec minor and anterior shoulder — tight from screens',how:'Lie on back. Arms out to sides like a T, elbows bent at 90°. Let gravity pull hands toward floor.',watch:"Don't force it. Breathe and let gravity work."}},
+    {name:'Hamstring stretch',sets:'60 sec each',tip:{what:'Hamstrings — tight hammies are the #1 source of low back pain',how:'Sit, one leg extended, other bent. Hinge forward from hips toward straight leg.',watch:'Hinge from hips, not waist. Keep back as flat as you can.'}},
+    {name:'Spiderman stretch',sets:'5 each side',tip:{what:'Hip flexors, groin, thoracic spine',how:'Lunge with front foot outside hand. Drop back knee. Open chest rotating toward front leg.',watch:'Meant to feel like a lot. Normal.'}}
+  ]},
+  {id:'w7',name:'KB complex circuit',focus:'kettlebell',mins:30,phase:[2,3],exercises:[
+    {name:'KB clean & press',sets:'4×5 each',tip:{what:'Total body — legs load the clean, shoulders press',how:'Pull KB up in one fluid arc, catch in rack position (forearm vertical). Press overhead.',watch:"Clean should be smooth. If KB bangs your wrist you're muscling instead of using hip drive."}},
+    {name:'KB single-leg deadlift',sets:'3×8 each',tip:{what:'Hamstrings, glutes, balance — one of the best exercises you can do',how:'Hold KB in one hand, hinge forward on opposite leg like a see-saw.',watch:'Keep hips square to floor. The lifted hip wants to rotate up — resist it.'}},
+    {name:'KB goblet squat',sets:'4×12',tip:{what:'Quads, glutes, core',how:'KB at chest, squat deep between knees.',watch:'Elbows inside knees at bottom. Use that to push knees out.'}},
+    {name:'KB renegade row',sets:'3×6 each',tip:{what:'Upper back, core anti-rotation',how:'Pushup position with hands on KB handles. Row one KB while other supports you. Alternate.',watch:"Don't let hips rotate when you row. That's the whole exercise."}},
+    {name:'KB swings',sets:'4×20',tip:{what:'Posterior chain endurance',how:'Hip hinge, explosive snap.',watch:"By set 4 you'll be breathing hard. Good."}}
+  ]},
+  {id:'w8',name:'Core & stability',focus:'strength',mins:20,phase:[1,2,3],exercises:[
+    {name:'Dead bug',sets:'3×8 each',tip:{what:'Deep core — actually protects your spine',how:'Back flat, arms up, knees at 90°. Lower opposite arm and leg without lifting back.',watch:'If lower back peels off floor, range is too big.'}},
+    {name:'Bird dog',sets:'3×8 each',tip:{what:'Core stability, lower back, balance',how:'On hands and knees. Extend opposite arm and leg, hold 2 sec, return.',watch:"Don't let lower back arch or hips rotate."}},
+    {name:'Side plank',sets:'3×30 sec each',tip:{what:'Lateral core — obliques supporting your spine sideways',how:'On side, forearm on floor, hips up. Body straight.',watch:"Don't let hips sag. Start with knees down if needed."}},
+    {name:'Pallof press (band)',sets:'3×10 each',tip:{what:'Anti-rotation core',how:'Band at chest height. Stand sideways to anchor. Press band straight out, hold 2 sec, return.',watch:'Resist the pull wanting to rotate you. That resistance IS the exercise.'}},
+    {name:'Hollow body hold',sets:'3×20 sec',tip:{what:'Full anterior core',how:'Lie on back, press lower back into floor. Arms overhead, legs straight and lifted.',watch:'Lower back must stay pressed into floor.'}}
+  ]},
+  {id:'w9',name:'Shoulder & thoracic mobility',focus:'mobility',mins:15,phase:[1,2,3],exercises:[
+    {name:'Wall slides',sets:'3×10',tip:{what:'Shoulder mobility and rotator cuff — reverses forward shoulder slump',how:'Back against wall, arms in goalpost shape. Slide arms up overhead keeping contact.',watch:'Keep lower back flat against wall. Most people arch it.'}},
+    {name:'Band pull-aparts',sets:'3×15',tip:{what:'Rear delts and upper back — most underworked muscles in desk workers',how:'Band at chest height, arms straight. Pull it apart horizontally to chest.',watch:'Squeeze shoulder blades at end range. Keep arms straight.'}},
+    {name:'Thread the needle',sets:'8 each side',tip:{what:'Thoracic rotation — getting rotation back in mid-back',how:'On hands and knees. Thread one arm under body along floor, let shoulder drop.',watch:'Rotation comes from mid-back. Hips stay relatively still.'}},
+    {name:'Doorway chest stretch',sets:'60 sec',tip:{what:'Pecs and anterior shoulder',how:'Stand in doorway, forearms on frame, elbows at 90°. Step through until you feel stretch.',watch:'Hold and breathe for full 60 sec.'}},
+    {name:'Prone Y-T-W',sets:'2×10 each',tip:{what:'Lower and mid traps, rear delts — postural muscles that hold shoulders back',how:'Face down. Y: arms overhead, lift. T: arms straight out, lift. W: elbows bent, pull to sides.',watch:"Small movements. You're trying to feel the squeeze, not lift high."}}
+  ]},
+  {id:'w10',name:'Turkish get-up practice',focus:'kettlebell',mins:20,phase:[2,3],exercises:[
+    {name:'KB Turkish get-up',sets:'5 each side (slow)',tip:{what:'Everything. Shoulder stability, hip mobility, core, balance. The best whole-body exercise.',how:'Start lying down, KB pressed up. Roll to elbow, push to hand, bridge up, sweep leg through, half-kneel, stand. Reverse.',watch:'GO SLOW. This is a skill. Start much lighter than you think. Eyes on the bell always.'}},
+    {name:'KB windmill',sets:'3×5 each',tip:{what:'Obliques, hip mobility, shoulder stability',how:'KB locked out overhead. Push hip out to KB side, hinge sideways, reach other hand down leg.',watch:'Eyes on KB the whole time. Locked arm stays vertical.'}},
+    {name:'KB halo',sets:'3×8 each way',tip:{what:'Shoulder mobility and core stability',how:'Hold KB by horns upside-down at chest. Circle it around head slowly.',watch:"Keep core tight and don't arch lower back."}},
+    {name:'KB goblet squat hold',sets:'3×10',tip:{what:'Hip mobility, quad strength, thoracic extension',how:'Hold KB at chest, squat deep and PAUSE at bottom 2 sec each rep.',watch:'Use elbows to push knees out at bottom. Active hip mobility work.'}}
+  ]},
+  {id:'w11',name:'Full body DB circuit',focus:'strength',mins:30,phase:[2,3],exercises:[
+    {name:'DB squat to press',sets:'4×10',tip:{what:'Legs and shoulders combined',how:'DBs at shoulder height. Squat down, stand up, press overhead in one movement.',watch:"Press starts as you're coming up from squat — use the momentum."}},
+    {name:'DB renegade row',sets:'3×8 each',tip:{what:'Upper back, core anti-rotation',how:'Pushup position on DBs. Row one DB while balancing on other.',watch:'Hips stay square. The fight against rotation is the exercise.'}},
+    {name:'DB Romanian deadlift',sets:'3×12',tip:{what:'Hamstrings and glutes',how:'Hip hinge, flat back, DBs slide down front of thighs.',watch:'Feel the stretch in hamstrings.'}},
+    {name:'DB lateral raises',sets:'3×15',tip:{what:'Lateral deltoid — shoulder width and posture',how:'Arms at sides, slight elbow bend. Raise out to shoulder height.',watch:"Don't shrug. Lead with elbows, not hands."}},
+    {name:'Pushup to T-rotation',sets:'3×8 each',tip:{what:'Chest, shoulders, core rotation',how:'Do a pushup, then at top rotate into side plank with arm raised, hold 1 sec.',watch:'Rotation is from thoracic spine. Control it.'}},
+    {name:'DB curl to press',sets:'3×10',tip:{what:'Biceps and shoulders',how:'Curl to shoulder height, then press overhead.',watch:"Two distinct movements — don't rush them together."}}
+  ]},
+  {id:'w13',name:'Hip & Knee Rehab',focus:'rehab',mins:15,phase:[1,2,3],exercises:[
+    {name:'Clamshells',sets:'3×15 each side',tip:{what:'Glute medius — the #1 muscle for fixing runner\'s knee',how:'Lie on your side, knees bent at 90°, feet together. Keep feet stacked and open your top knee up like a clamshell. Lower slowly.',watch:'Don\'t let your hips roll backward to get more range. The movement should only come from your hip rotating. Put a hand on your hip to feel if it tilts.'}},
+    {name:'Lateral band walk',sets:'3×15 each direction',tip:{what:'Glute medius and hip abductors — directly prevents knee cave when running',how:'Band around ankles or above knees. Slight squat position. Step sideways maintaining tension. Go 15 steps each direction.',watch:'Keep toes forward and maintain the squat position throughout. Don\'t let the band snap your knees inward.'}},
+    {name:'Glute bridge',sets:'3×15',tip:{what:'Glutes and hamstrings — powers your hip extension so your knee doesn\'t have to absorb as much',how:'Lie on back, knees bent. Drive hips up, squeeze glutes hard at the top. Hold 1 sec, lower controlled.',watch:'Squeeze at the top. This is the whole exercise — don\'t just bounce up and down.'}},
+    {name:'Single-leg calf raises',sets:'3×15 each side',tip:{what:'Calf, Achilles, and foot arch — builds ankle stability that protects your foot and knee',how:'Stand on one foot at the edge of a step or flat floor. Rise up onto your toes slowly (2 sec up), lower slowly (3 sec down).',watch:'The slow lowering is where the strength gains happen. If your foot arch collapses outward, you\'re going too fast.'}},
+    {name:'Couch stretch',sets:'60 sec each side',tip:{what:'Hip flexors and quads — tightness here tilts your pelvis and stresses the knee',how:'Back knee on floor, back foot up on couch. Front leg at 90°. Tuck pelvis and shift forward until you feel it in the front of the back hip.',watch:'Glute squeeze on the back leg is what makes this effective. Without it you\'re just hanging there.'}},
+    {name:'Standing quad stretch',sets:'45 sec each side',tip:{what:'Quads — tight quads pull the kneecap up and compress the joint',how:'Stand on one leg, pull the other foot toward your glutes. Keep knees together, stand tall.',watch:'Don\'t lean forward. Stay upright and squeeze the glute of the standing leg for balance.'}}
+  ]},
+  {id:'w12',name:'Mobility & breathwork',focus:'mobility',mins:15,phase:[1,2,3],exercises:[
+    {name:'Box breathing',sets:'3 min',tip:{what:'Nervous system regulation — lowers cortisol, improves recovery',how:'Inhale 4 counts, hold 4, exhale 4, hold 4. Repeat.',watch:'Feels weird for 30 seconds. Stick with it.'}},
+    {name:'Hip flexor stretch',sets:'90 sec each',tip:{what:'Hip flexors — shortens from sitting, causes low back pain',how:'Lunge, back knee on floor. Tuck pelvis under and shift forward.',watch:'Pelvic tuck is what makes this effective.'}},
+    {name:'Thoracic extension over foam roll',sets:'2 min',tip:{what:'Thoracic spine — undoes forward rounding from screens',how:'Foam roll perpendicular to spine. Lie back over it. Let gravity extend your spine.',watch:'Work mid-back between shoulder blades, not lower back.'}},
+    {name:"Child's pose to cobra",sets:'10 reps',tip:{what:'Full spinal flexion and extension',how:"From child's pose flow into cobra. Slow rhythm.",watch:'In cobra, keep glutes relaxed. Extension from thoracic, not just lower back.'}},
+    {name:'Seated twist',sets:'8 each side',tip:{what:'Thoracic rotation and lumbar relief',how:'Sit cross-legged. Hand on opposite knee, one behind. Rotate and hold 3 sec.',watch:'Sit tall first, then rotate.'}}
+  ]},
+  {id:'w14',name:'Daily Reset (morning)',focus:'rehab',mins:10,phase:[1,2,3],exercises:[
+    {name:'Lying hip rotation warmup',sets:'10 reps each direction',tip:{what:'Lubricates the hip joint and addresses your morning hip pop',how:'Lie on your back, knees bent. Let both knees fall slowly to one side, hold 3 sec, rotate to the other. Then make slow circles with each knee individually.',watch:'This should be the very first thing you do. Before you get out of bed if possible. The hip pop happens because the joint is cold and dry — this fixes that.'}},
+    {name:'Hip 90/90 stretch',sets:'60 sec each side',tip:{what:'Hip internal and external rotation — directly addresses your femoral rotation bias',how:'Sit on floor, both knees at 90°. Lean into the front hip, feel the stretch in the outer hip. Switch sides.',watch:'Right side will feel significantly tighter — spend an extra 30 sec there.'}},
+    {name:'Peroneal stretch (RIGHT focus)',sets:'2×60 sec right / 1×30 sec left',tip:{what:'Outer shin — overworking due to your right side rotation pattern',how:'Sit on floor, cross right foot over left knee. Hold top of right foot, point toes downward and inward. Hold.',watch:'Gentle and sustained. This muscle is chronically fatigued. Don\'t force it.'}},
+    {name:'Glute medius activation (standing)',sets:'10 reps each side, 5 sec hold',tip:{what:'Waking up the glute medius before it has to work all day',how:'Stand on one leg. Use the screw cue. Feel the outer glute engage and hold 5 sec. Switch.',watch:'Do this before your first walk of the day. You\'re priming the muscle to fire correctly before it has to stabilize every step.'}},
+    {name:'Calf and foot mobilization',sets:'30 sec each foot',tip:{what:'Foot and ankle — wakes up the arch and peroneal chain before loading',how:'Stand on one foot. Slowly roll from heel to toe, then make slow ankle circles both directions.',watch:'Right foot especially — you\'re addressing the compensatory patterns in the arch and outer edge.'}}
+  ]}
+];
 
-// Draft trip state (in-progress, not yet submitted)
-let draft={
-  tripName:'',
-  startDate:todayStr(),
-  dayCount:7,
-  plan:{},
-  notes:{},
-  weekItems:[]
-};
+// All trackable exercises (weighted/bodyweight)
+const VALGUS_STAGES=[
+  {
+    id:'v1',stage:1,name:'Stage 1 — Activate',mins:15,
+    desc:'Isolated activation. Your glute medius has been dormant — wake it up before asking it to do anything harder. Right side is 20-30% weaker than left — give it one extra set on every unilateral exercise. Do this every day until the clamshell burns instead of stretches.',
+    unlock:0,
+    exercises:[
+      {name:'Glute medius activation test',sets:'30 sec each side',tip:{what:'Finding the muscle before loading it',how:'Stand on one leg. Put your hand on your outer hip (an inch behind the bony point). Push your knee gently outward without moving your foot. Feel for the contraction under your hand.',watch:"If you feel nothing, press your outer knee into a wall instead. You must be able to feel this muscle before moving on."}},
+      {name:'Banded clamshells (RIGHT +1 set)',sets:'3×15 left / 4×15 right (slow)',tip:{what:'Glute medius isolation — your most important exercise right now',how:'Band just above knees. Lie on side, knees at 90°. Before opening, intentionally squeeze your outer glute. 3 sec open, hold 2 sec at top, 3 sec lower.',watch:"If it feels like a stretch and not a burn, your band is too loose or you're not pre-activating the glute. Move band closer to ankles for more resistance. Right side gets an extra set until it matches the left."}},
+      {name:'Glute bridge with knee-out press',sets:'3×12',tip:{what:'Glute activation in a loaded position',how:'Band above knees. Normal glute bridge position. As you drive hips up, ALSO press your knees outward against the band. Hold top 2 sec.',watch:'Two things at once — hip up AND knees out. The knee press is what adds glute medius work on top of the regular bridge.'}},
+      {name:'Standing screw cue practice',sets:'10 reps, 5 sec hold each',tip:{what:'Teaching your nervous system the pattern you need for running',how:'Stand feet hip-width. Without moving feet, create outward rotational tension like unscrewing the floor. Feel glutes engage, arches lift slightly, knees track over toes.',watch:"Right side will feel harder than left — that's expected. Your right femur has a stronger inward rotation default. Hold it longer on the right."}},
+      {name:'Peroneal stretch (right side focus)',sets:'2×60 sec right / 1×60 sec left',tip:{what:'Outer shin muscles — overworking to compensate for your weak right glute medius',how:'Sit on floor, cross right foot over left knee. Hold the top of your right foot and gently point toes downward and inward (like making the sole face upward). Feel the stretch along the outer right shin.',watch:"Don't force it. This muscle is chronically tight because it's been overworking. Gentle sustained pressure, not aggressive. Breathe through it."}},
+      {name:'Hip 90/90 rotations',sets:'2×10',tip:{what:'Hip internal and external rotation — restores the range your glute needs to work through',how:'Sit with both knees bent at 90°, one forward, one to the side. Rotate both hips to switch sides.',watch:'Keep your butt on the floor the whole time.'}}
+    ]
+  },
+  {
+    id:'v2',stage:2,name:'Stage 2 — Load it',mins:20,
+    desc:'Glute is firing in isolation. Now load it with bodyweight in standing positions. Focus on the screw cue on every single rep. Right side still gets one extra set on all unilateral work.',
+    unlock:6,
+    exercises:[
+      {name:'Banded lateral walk',sets:'3×20 each direction',tip:{what:'Glute medius under load, standing — closest exercise to running mechanics',how:'Band above knees. Slight squat. Step sideways 20 steps, keeping tension in band. Screw-outward cue active the whole time.',watch:'Toes stay forward. Do not let the stepping foot turn out. The resistance against the band IS the exercise.'}},
+      {name:'Banded squat with screw cue',sets:'3×12',tip:{what:'Glute medius during loaded knee bend — the pattern you need for running',how:'Band above knees. Feet hip-width. As you lower, actively push knees outward against the band (screw cue). Pause at bottom 2 sec.',watch:'Watch your knees in a mirror if you can. They should track over toes, not cave inward. If they cave, reduce depth until you can control it.'}},
+      {name:'Single-leg glute bridge (RIGHT +1 set)',sets:'3×10 left / 4×10 right',tip:{what:'Glute isolation on one leg — directly targets your right side weakness',how:'Normal bridge setup. Extend one leg straight. Drive through the heel of the bent leg to lift hips.',watch:'Your hips will want to rotate or drop to the unsupported side. Resist that. Level hips throughout.'}},
+      {name:'Step-up with screw cue',sets:'3×10 each side',tip:{what:'Single-leg loading with hip stability — stair climbing pattern',how:'Step onto a low box or step. As you push through the top foot to stand up, use the screw cue. Control the descent.',watch:'The standing knee should stay over the toes the whole time. If it caves inward at any point, that is the pattern causing your runner\'s knee.'}},
+      {name:'Single-leg calf raises (RIGHT +1 set)',sets:'3×15 left / 4×15 right',tip:{what:'Foot and ankle stability — your right peroneal chain needs extra work',how:'One foot. Slow rise (2 sec), slow lower (3 sec).',watch:'Arch should not collapse outward as you fatigue. Right side gets extra set.'}}
+    ]
+  },
+  {
+    id:'v3',stage:3,name:'Stage 3 — Single leg',mins:20,
+    desc:'Hip stable in double-leg movements. Now train single-leg control — this is the running position. Every rep should have the screw cue active. Right side extra set continues.',
+    unlock:15,
+    exercises:[
+      {name:'Reverse lunge with screw cue',sets:'3×10 each side',tip:{what:'Single-leg loading with knee tracking — exactly what running requires',how:'Step back into lunge. Front knee stays over toes (screw cue on the front foot). Push back up from the front heel.',watch:'Watch that front knee. Any inward cave means your glute medius is still not strong enough to hold it — slow down and focus.'}},
+      {name:'KB single-leg deadlift',sets:'3×8 each side',tip:{what:'Posterior chain + hip stability on one leg',how:'Hold KB in one hand, hinge forward on opposite leg like a see-saw. Standing leg knee stays soft and tracks over toes via screw cue.',watch:'Hips stay square to floor. The lifted hip wants to rotate up — resist it. That rotation is your glute medius working.'}},
+      {name:'Skater squat (assisted)',sets:'3×8 each side',tip:{what:'The hardest single-leg exercise before running — builds the exact strength pattern',how:'Stand on one leg, hold a door handle or wall lightly for balance. Lower your back knee toward the floor (like a reverse lunge but the back foot never touches down). Push back up.',watch:'Use as little assistance as you need. The goal is to eventually not need the support. Knee tracks over toes the whole way.'}},
+      {name:'Lateral band walk — long set',sets:'2×30 each direction',tip:{what:'Glute medius endurance — you need this to last a mile of running',how:'Same as before but longer. 30 steps each direction, 2 rounds.',watch:'Form matters more than speed. Slow and controlled with screw cue active.'}},
+      {name:'Standing hip abduction (RIGHT +1 set)',sets:'3×15 left / 4×15 right',tip:{what:'Direct glute medius strengthening — mimics single-leg stance phase of running',how:'Band around ankles. Stand on one leg. Lift outer leg directly to side, hold 1 sec, lower slowly. Standing knee slightly bent and screwed outward.',watch:"Don't lean torso to the side to get the leg up. Stand tall. The lean means your glute medius isn't strong enough yet."}}
+    ]
+  },
+  {
+    id:'v4',stage:4,name:'Stage 4 — Running ready',mins:20,
+    desc:'Single-leg control established. Now train dynamic movement with the screw cue. When these feel natural, you\'re ready to run without knee pain.',
+    unlock:25,
+    exercises:[
+      {name:'Banded jump squat (small)',sets:'3×8',tip:{what:'Explosive glute activation — training the landing pattern',how:'Band above knees. Small squat, small jump, land softly with knees OUT (screw cue on landing). Land quietly.',watch:'The landing is everything. Knees must NOT cave on impact. Start with tiny hops and build up.'}},
+      {name:'Lateral shuffle (banded)',sets:'3×20 each direction',tip:{what:'Dynamic lateral glute medius — running speed hip stability',how:'Band above knees, athletic stance. Quick lateral shuffles, staying low. Screw cue active throughout.',watch:'Stay low. If you stand up between shuffles you lose the glute engagement.'}},
+      {name:'Single-leg hop and hold',sets:'3×8 each side',tip:{what:'The running landing pattern — single-leg impact absorption',how:'Stand on one leg. Small hop straight up. Land and HOLD for 3 seconds. Knee tracks over toes, screw cue active on landing.',watch:'The hold after landing is the whole exercise. That\'s the moment your knee was collapsing during running. Now you\'re training it not to.'}},
+      {name:'Step-down test',sets:'3×10 each side',tip:{what:'Functional valgus test — are you fixed?',how:'Stand on a step, one foot hanging. Slowly lower the hanging heel toward the floor and back up. Watch your standing knee.',watch:'If your standing knee stays over your toes throughout — you\'re ready to run. If it caves inward at any point — stay in Stage 3 a bit longer.'}},
+      {name:'Run-walk intervals',sets:'10 min — 1 min run, 1 min walk',tip:{what:'Returning to running with the new pattern',how:'Jog at easy pace. Screw cue active. Foot landing under hips. Short strides. If knee starts to hurt, walk and activate glutes before running again.',watch:"Stop if you feel knee pain. That's your glute medius fatiguing. Walk, activate, try again. Don't push through it."}}
+    ]
+  }
+];
 
-function todayStr(){
-  const d=new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-function dateLabel(dateStr){
-  const d=new Date(dateStr+'T00:00:00');
-  return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
-}
-function addDays(dateStr,n){
-  const d=new Date(dateStr+'T00:00:00');
-  d.setDate(d.getDate()+n);
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-function getDayKeys(){
-  const keys=[];
-  for(let i=0;i<draft.dayCount;i++) keys.push(addDays(draft.startDate,i));
-  return keys;
-}
-function defaultTripName(startDate,dayCount){
-  const end=addDays(startDate,dayCount-1);
-  const fmt=s=>new Date(s+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  return `${fmt(startDate)} – ${fmt(end)}`;
-}
+const TRACKABLE=[
+  {id:'e1',name:'Pushups',unit:'bodyweight'},
+  {id:'e2',name:'DB shoulder press',unit:'lbs'},
+  {id:'e3',name:'DB bent-over row',unit:'lbs'},
+  {id:'e4',name:'DB chest press (floor)',unit:'lbs'},
+  {id:'e5',name:'DB curls',unit:'lbs'},
+  {id:'e6',name:'Goblet squat (KB)',unit:'lbs'},
+  {id:'e7',name:'DB Romanian deadlift',unit:'lbs'},
+  {id:'e8',name:'KB two-hand swings',unit:'lbs'},
+  {id:'e9',name:'KB deadlift',unit:'lbs'},
+  {id:'e10',name:'Plank hold',unit:'seconds'},
+  {id:'e11',name:'Reverse lunges',unit:'lbs'},
+  {id:'e12',name:'Glute bridge',unit:'bodyweight'},
+  {id:'e13',name:'DB squat to press',unit:'lbs'},
+  {id:'e14',name:'KB clean & press',unit:'lbs'},
+  {id:'e15',name:'KB Turkish get-up',unit:'lbs'},
+  {id:'e16',name:'Full body DB circuit',unit:'lbs'},
+  {id:'e17',name:'Side plank',unit:'seconds'},
+  {id:'e18',name:'Hollow body hold',unit:'seconds'},
+  {id:'e19',name:'Clamshells',unit:'bodyweight'},
+  {id:'e20',name:'Single-leg calf raises',unit:'bodyweight'}
+];
 
-async function sbGet(table,params=''){
-  const r=await fetch(`${SUPABASE_URL}/rest/v1/${table}${params}`,{headers:{...H,'Prefer':'return=representation'}});
-  if(!r.ok)throw new Error(await r.text());
-  return r.json();
-}
-async function sbUpsert(table,data){
-  const r=await fetch(`${SUPABASE_URL}/rest/v1/${table}`,{method:'POST',headers:{...H,'Prefer':'resolution=merge-duplicates,return=representation'},body:JSON.stringify(data)});
-  if(!r.ok)throw new Error(await r.text());
-  return r.json();
-}
-async function sbDelete(table,id){
-  const r=await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}`,{method:'DELETE',headers:H});
-  if(!r.ok)throw new Error(await r.text());
-}
+const GOALS=[
+  {id:'g1',name:'50 consecutive pushups',desc:'Build upper body endurance from the ground up.',cat:'Strength'},
+  {id:'g2',name:'10 pullups',desc:'The gold standard for relative strength. Get a bar and earn it.',cat:'Strength'},
+  {id:'g3',name:'KB Turkish get-up, 5 each side',desc:'The ultimate mobility + strength combo.',cat:'Kettlebell'},
+  {id:'g4',name:'3-minute plank hold',desc:'Pure core endurance. Harder than it sounds.',cat:'Strength'},
+  {id:'g5',name:'20-min KB swing session',desc:'Cardiovascular endurance meets posterior chain strength.',cat:'Kettlebell'},
+  {id:'g6',name:'Ride 10 miles on a bike',desc:"The redemption arc. Low-impact cardio.",cat:'Cardio 🚲'},
+  {id:'g7',name:'Touch your toes flat-footed',desc:"Sounds simple. For a stiff 36-year-old, it's real.",cat:'Mobility'},
+  {id:'g8',name:'Full deep squat, 60 sec hold',desc:"The human resting position we've trained out of.",cat:'Mobility'},
+  {id:'g9',name:'Complete all 90 sessions',desc:'No physical test. Just show up 90 times.',cat:'Completion'}
+];
+
+let sessions=[],records=[],weighIns=[];
+let selectedGoal=null,selectedWorkout=null,currentMood=null,currentRec=null;
+let todayFilterVal='all',prType='baseline',selectedExerciseId=null;
+
+async function sbGet(t,p=''){const r=await fetch(`${SUPABASE_URL}/rest/v1/${t}${p}`,{headers:H});if(!r.ok)throw new Error(await r.text());return r.json();}
+async function sbInsert(t,d){const r=await fetch(`${SUPABASE_URL}/rest/v1/${t}`,{method:'POST',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(d)});if(!r.ok)throw new Error(await r.text());return r.json();}
+async function sbDelete(t,id){const r=await fetch(`${SUPABASE_URL}/rest/v1/${t}?id=eq.${encodeURIComponent(id)}`,{method:'DELETE',headers:H});if(!r.ok)throw new Error(await r.text());}
 
 function setSyncStatus(s,msg){
   document.getElementById('sync-dot').className='sync-dot'+(s==='ok'?' ok':s==='err'?' err':' loading');
@@ -535,537 +577,549 @@ function setSyncStatus(s,msg){
 async function loadData(){
   setSyncStatus('loading','Loading...');
   try{
-    const[recs,itms,trps]=await Promise.all([
-      sbGet('recipes','?order=created_at.asc'),
-      sbGet('items','?order=created_at.asc'),
-      sbGet('weeks','?order=updated_at.desc')
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),8000);
+    const[s,r,w]=await Promise.all([
+      sbGet('workout_sessions','?order=logged_at.desc'),
+      sbGet('exercise_records','?order=logged_at.asc'),
+      sbGet('weigh_ins','?order=logged_at.asc')
     ]);
-    recipes=recs.length?recs:DEFAULT_RECIPES;
-    savedItems=itms;
-    trips=trps;
-    // Find current unsubmitted trip or most recent submitted
-    const unsubmitted=trips.find(t=>!t.submitted);
-    if(unsubmitted){
-      currentTripId=unsubmitted.week_key;
-      draft={
-        tripName:unsubmitted.trip_name||'',
-        startDate:unsubmitted.start_date||todayStr(),
-        dayCount:unsubmitted.day_count||7,
-        plan:unsubmitted.plan||{},
-        notes:unsubmitted.notes||{},
-        weekItems:unsubmitted.week_items||[]
-      };
-    } else {
-      currentTripId=null;
-      draft={tripName:'',startDate:todayStr(),dayCount:7,plan:{},notes:{},weekItems:[]};
-    }
-    if(!recs.length) await sbUpsert('recipes',DEFAULT_RECIPES);
+    clearTimeout(timeout);
+    sessions=s;records=r;weighIns=w;
     setSyncStatus('ok','Synced');
   }catch(e){
-    setSyncStatus('err','Offline');
-    recipes=DEFAULT_RECIPES;savedItems=[];trips=[];
+    console.error('Load error:',e);
+    setSyncStatus('err','Offline — using local data');
+    // Try local backup
+    try{
+      const backup=localStorage.getItem('workout-backup');
+      if(backup){const d=JSON.parse(backup);sessions=d.sessions||[];records=d.records||[];weighIns=d.weighIns||[];}
+    }catch(_){sessions=[];records=[];weighIns=[];}
   }
+  // Always save local backup
+  try{localStorage.setItem('workout-backup',JSON.stringify({sessions,records,weighIns}));}catch(_){}
+  try{const s=localStorage.getItem('workout-goal-v1');if(s)selectedGoal=JSON.parse(s);}catch(_){}
+  document.getElementById('wi-date').value=todayStr();
   render();
 }
 
+function todayStr(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+
 function switchTab(t){
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['recipes','items','plan','thistrip','history'][i]===t));
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['today','progress','records','weight','valgus','library','goal'][i]===t));
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+t).classList.add('active');
-  if(t==='plan') renderPlan();
-  if(t==='thistrip'){renderThisTrip();renderShopping();}
-  if(t==='history') renderHistory();
-  if(t==='items') renderItems();
+  if(t==='progress')renderProgress();
+  if(t==='records')renderRecords();
+  if(t==='weight')renderWeight();
+  if(t==='valgus')renderValgus();
+  if(t==='library')renderLibrary('all');
+  if(t==='goal')renderGoal();
 }
 
-/* ---- RECIPES ---- */
-function filterRecipes(f,btn){
-  recipeFilter=f;
-  document.querySelectorAll('#recipe-filters .filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');renderRecipes();
+function getCurrentStage(){
+  const n=sessions.length;
+  for(let i=VALGUS_STAGES.length-1;i>=0;i--){if(n>=VALGUS_STAGES[i].unlock)return VALGUS_STAGES[i].stage;}
+  return 1;
 }
-function renderRecipes(){
-  const grid=document.getElementById('recipe-grid');
-  const rs=recipeFilter==='all'?recipes:recipes.filter(r=>r.cat===recipeFilter);
-  if(!rs.length){grid.innerHTML='<div class="empty-state">No recipes in this category yet.</div>';return;}
-  grid.innerHTML=rs.map(r=>{
-    const tl=CAT_LABELS[r.cat]||r.cat;
-    const t=r.time>=60?`${Math.floor(r.time/60)}hr${r.time%60?' '+r.time%60+'m':''}`:r.time?`${r.time} min`:'';
-    const src=r.url?`<a href="${r.url}" target="_blank" rel="noopener" style="font-size:11px;color:var(--blue-text);text-decoration:none;display:block;margin-top:6px">View source ↗</a>`:'';
-    return `<div class="recipe-card">
-      <div class="card-actions"><button class="icon-btn" onclick="editRecipe('${r.id}')">Edit</button><button class="icon-btn del" onclick="deleteRecipe('${r.id}')">✕</button></div>
-      <h3>${r.name}</h3>
-      <div class="meta">${t}${r.servings?` · serves ${r.servings}`:''}${r.notes?`<br>${r.notes}`:''}</div>
-      <span class="tag tag-${r.cat}">${tl}</span>${src}
+
+function renderValgus(){
+  const currentStage=getCurrentStage();
+  const total=sessions.length;
+  const content=document.getElementById('valgus-content');
+  content.innerHTML=VALGUS_STAGES.map(stage=>{
+    const locked=total<stage.unlock;
+    const active=stage.stage===currentStage;
+    const done=stage.stage<currentStage;
+    const borderColor=done?'var(--green)':active?'var(--blue)':'var(--border)';
+    const bg=done?'var(--green-bg)':active?'var(--blue-bg)':'var(--bg)';
+    const badge=done?'<span style="font-size:11px;padding:2px 8px;border-radius:20px;background:var(--green);color:#E1F5EE;margin-left:8px">Complete</span>':active?'<span style="font-size:11px;padding:2px 8px;border-radius:20px;background:var(--blue);color:#E1F5EE;margin-left:8px">Current stage</span>':'';
+    const lockMsg=locked?`<div style="font-size:12px;color:var(--text3);margin-top:8px">🔒 Unlocks at ${stage.unlock} total sessions (you have ${total})</div>`:'';
+    const exRows=locked?'':`<div style="margin-top:12px">${stage.exercises.map((e,i)=>`
+      <div class="ex-item">
+        <div class="ex-header" onclick="toggleTip('vg-${stage.id}-${i}')">
+          <span class="ex-name">${e.name}</span>
+          <span style="display:flex;align-items:center;gap:8px"><span class="ex-sets">${e.sets}</span><span class="ex-toggle">▸ how-to</span></span>
+        </div>
+        <div class="ex-tip" id="vg-${stage.id}-${i}">
+          <div class="tip-what">Works: ${e.tip.what}</div>
+          <div style="margin-top:4px"><strong>How:</strong> ${e.tip.how}</div>
+          <div style="margin-top:4px;color:var(--amber-text)"><strong>Watch out:</strong> ${e.tip.watch}</div>
+        </div>
+      </div>`).join('')}
+      ${active?`<div style="margin-top:1rem"><button class="btn btn-green btn-sm" onclick="logValgusSession('${stage.id}','${stage.name}')">Log this session ✓</button></div>`:''}
+    </div>`;
+    return `<div style="background:${bg};border:${active?'2px':'0.5px'} solid ${borderColor};border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:12px;opacity:${locked?'.5':'1'}">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:6px">
+        <span style="font-size:15px;font-weight:500">${stage.name}</span>${badge}
+        <span style="font-size:12px;color:var(--text2);margin-left:auto">${stage.mins} min</span>
+      </div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.6">${stage.desc}</div>
+      ${lockMsg}${exRows}
     </div>`;
   }).join('');
 }
-function toggleForm(){
-  const f=document.getElementById('recipe-form');
-  const show=f.style.display==='none';
-  if(show){editingRecipeId=null;resetForm();}
-  f.style.display=show?'block':'none';
-  document.getElementById('toggle-form-btn').textContent=show?'Cancel':'+ Add recipe';
-  if(show)f.scrollIntoView({behavior:'smooth',block:'start'});
-}
-function cancelForm(){
-  document.getElementById('recipe-form').style.display='none';
-  document.getElementById('toggle-form-btn').textContent='+ Add recipe';
-  editingRecipeId=null;
-}
-function resetForm(){
-  ['f-name','f-time','f-servings','f-url','f-notes'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('f-cat').value='protein';
-  document.getElementById('form-title').textContent='New recipe';
-  document.getElementById('ing-rows').innerHTML='';addIngRow();
-}
-function addIngRow(qty='',unit='',name='',staple=false){
-  const row=document.createElement('div');row.className='ing-row';
-  row.innerHTML=`<input class="qty" type="text" value="${qty}" placeholder="qty"><input class="unit" type="text" value="${unit}" placeholder="unit"><input type="text" value="${name}" placeholder="ingredient name" style="flex:1"><label class="staple-toggle"><input type="checkbox"${staple?' checked':''}> staple</label><button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;line-height:1;padding:0 3px">×</button>`;
-  document.getElementById('ing-rows').appendChild(row);
-}
-function editRecipe(id){
-  const r=recipes.find(x=>x.id===id);if(!r)return;
-  editingRecipeId=id;
-  document.getElementById('form-title').textContent='Edit recipe';
-  document.getElementById('f-name').value=r.name;document.getElementById('f-cat').value=r.cat;
-  document.getElementById('f-time').value=r.time||'';document.getElementById('f-servings').value=r.servings||'';
-  document.getElementById('f-url').value=r.url||'';document.getElementById('f-notes').value=r.notes||'';
-  document.getElementById('ing-rows').innerHTML='';
-  (r.ingredients||[]).forEach(i=>addIngRow(i.qty,i.unit,i.name,i.staple));
-  document.getElementById('recipe-form').style.display='block';
-  document.getElementById('toggle-form-btn').textContent='Cancel';
-  document.getElementById('recipe-form').scrollIntoView({behavior:'smooth',block:'start'});
-}
-async function saveRecipe(){
-  const name=document.getElementById('f-name').value.trim();if(!name)return alert('Please enter a recipe name.');
-  const ingredients=[];
-  document.querySelectorAll('#ing-rows .ing-row').forEach(row=>{
-    const ins=row.querySelectorAll('input');const n=ins[2]?.value.trim();
-    if(n)ingredients.push({qty:ins[0].value.trim(),unit:ins[1].value.trim(),name:n,staple:ins[3]?.checked||false});
-  });
-  const rec={id:editingRecipeId||'r'+Date.now(),name,cat:document.getElementById('f-cat').value,time:parseInt(document.getElementById('f-time').value)||0,servings:parseInt(document.getElementById('f-servings').value)||0,url:document.getElementById('f-url').value.trim(),notes:document.getElementById('f-notes').value.trim(),ingredients};
+
+async function logValgusSession(stageId,stageName){
+  const stage=VALGUS_STAGES.find(s=>s.id===stageId);if(!stage)return;
+  const s={id:'s'+Date.now(),workout_id:stageId,workout_name:stageName,focus:'rehab',duration_mins:stage.mins,phase:getCurrentPhase(),session_type:'workout'};
   setSyncStatus('loading','Saving...');
   try{
-    await sbUpsert('recipes',rec);
-    if(editingRecipeId){const i=recipes.findIndex(x=>x.id===editingRecipeId);if(i>=0)recipes[i]=rec;}
-    else recipes.push(rec);
-    setSyncStatus('ok','Saved');cancelForm();renderRecipes();
-  }catch(e){setSyncStatus('err','Save failed');}
-}
-async function deleteRecipe(id){
-  if(!confirm('Delete this recipe?'))return;
-  try{
-    await sbDelete('recipes',id);
-    recipes=recipes.filter(r=>r.id!==id);
-    setSyncStatus('ok','Deleted');renderRecipes();
-  }catch(e){setSyncStatus('err','Delete failed');}
+    await sbInsert('workout_sessions',s);
+    sessions.unshift(s);setSyncStatus('ok','Logged!');
+    renderValgus();renderProgress();
+  }catch(e){setSyncStatus('err','Log failed');}
 }
 
-/* ---- ITEMS ---- */
-function renderItems(){
-  const grid=document.getElementById('items-grid');
-  if(!savedItems.length){grid.innerHTML='<div class="empty-state">No saved items yet. Add one above or type a new item when planning a trip.</div>';return;}
-  grid.innerHTML=savedItems.map(item=>{
-    const catLabel=CAT_LABELS[item.category]||item.category;
-    return `<div class="item-card">
-      <div class="card-actions"><button class="icon-btn" onclick="editItem('${item.id}')">Edit</button><button class="icon-btn del" onclick="deleteItem('${item.id}')">✕</button></div>
-      <h3>${item.name}</h3>
-      <div class="meta">${item.qty||''}${item.notes?` · ${item.notes}`:''}</div>
-      <span class="tag tag-${item.category||'other'}">${catLabel}</span>
-    </div>`;
+function getCurrentPhase(){const n=sessions.length;return n<30?1:n<60?2:3;}
+
+/* ---- REC ENGINE ---- */
+function computeRec(){
+  const phase=getCurrentPhase();
+  const available=WORKOUTS.filter(w=>w.phase.includes(phase));
+  const recent=sessions.slice(0,5).map(s=>s.focus);
+  const last=recent[0]||null;
+  const last2Same=recent.length>=2&&recent[0]===recent[1];
+  const noMobility=recent.filter(f=>f==='mobility').length===0&&sessions.length>=3;
+  const noKB=recent.filter(f=>f==='kettlebell').length===0&&sessions.length>=4;
+
+  if(currentMood==='sore'){const w=available.find(w=>w.id==='w14')||available.find(w=>w.id==='w13');return{workout:w,why:"You're sore — Daily Reset is perfect. 10 minutes, addresses your hip pop, peroneal tightness, and right side bias. Then rest."};}
+  if(currentMood==='low'){const w=available.find(w=>w.id==='w14')||available.find(w=>w.id==='w13');return{workout:w,why:"Low energy — do the Daily Reset at minimum. 10 minutes targeting your right side chain. That's a win."};}
+  if(currentMood==='fired'){const w=available.find(w=>w.id==='w7')||available.find(w=>w.focus==='kettlebell'&&w.mins>=20)||available.find(w=>w.mins>=30);return{workout:w,why:"You're fired up — use it. High-output session."};}
+
+  // Runner's knee priority: if no rehab/glute work in last 2 sessions, surface it
+  const recentIds=sessions.slice(0,2).map(s=>s.workout_id);
+  const rehabIds=['w13','w4','w3','v1','v2','v3','v4'];
+  const noRecentRehab=!recentIds.some(id=>rehabIds.includes(id))&&sessions.length>=2;
+  if(noRecentRehab){const w=available.find(w=>w.id==='w13');return{workout:w,why:"No hip/glute work in your last 2 sessions. Check the 🦵 Knee fix tab for your valgus progression, or do Hip & Knee Rehab now."};}
+
+  if(last2Same&&last==='strength'){const w=available.find(w=>w.id==='w13')||available.find(w=>w.focus==='mobility');return{workout:w,why:"Two strength sessions in a row. Hip & Knee Rehab now — this directly addresses your running issues."};}
+  if(noMobility){const w=available.find(w=>w.focus==='mobility');return{workout:w,why:"No mobility work recently. Given your stiffness and runner's knee, this is a priority."};}
+  if(noKB){const w=available.find(w=>w.focus==='kettlebell');return{workout:w,why:"No KB work in a while. Swings are your best single exercise for strength and mobility combined."};}
+  if(last==='mobility'||last==='rehab'){const w=available.find(w=>w.focus==='strength'&&w.mins<=30)||available.find(w=>w.focus==='strength');return{workout:w,why:"You did mobility/rehab last time. Build some strength on top of that looseness."};}
+  if(currentMood==='average'){const w=available.find(w=>w.id==='w8')||available.find(w=>w.mins<=20);return{workout:w,why:"Average day — solid 20-min core session. Not too taxing, still meaningful."};}
+  if(phase===1){const w=available.find(w=>w.id==='w13');return{workout:w,why:"In Phase 1, Hip & Knee Rehab is your most important workout. Do it at least every other session."};}
+  const w=available.find(w=>w.focus==='strength'&&w.mins===30)||available[0];
+  return{workout:w,why:"A solid balanced session for where you are in the program."};
+}
+function renderRec(){
+  const rec=computeRec();currentRec=rec;
+  const card=document.getElementById('rec-card');
+  if(!rec||!rec.workout){card.style.display='none';return;}
+  document.getElementById('rec-title').textContent=rec.workout.name+` — ${rec.workout.mins} min`;
+  document.getElementById('rec-why').textContent=rec.why;
+  card.style.display='block';
+}
+function selectRecommended(){if(!currentRec||!currentRec.workout)return;selectWorkout(currentRec.workout.id);document.getElementById('today-grid').scrollIntoView({behavior:'smooth',block:'start'});}
+
+/* ---- MOOD ---- */
+function setMood(mood,btn){currentMood=mood;document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderRec();}
+
+/* ---- DATE HELPERS ---- */
+function dateKey(date){
+  const d=date||new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function sessionDateKey(s){
+  return dateKey(new Date(s.logged_at));
+}
+function didDailyResetToday(){
+  const today=dateKey();
+  return sessions.some(s=>s.workout_id==='w14'&&sessionDateKey(s)===today);
+}
+function computeStreak(){
+  if(!sessions.length)return{current:0,longest:0};
+  // Get unique active days (non-rest) sorted descending
+  const activeDays=[...new Set(sessions.filter(s=>s.session_type==='workout').map(s=>sessionDateKey(s)))].sort().reverse();
+  if(!activeDays.length)return{current:0,longest:0};
+  const today=dateKey();
+  const yesterday=dateKey(new Date(Date.now()-864e5));
+  // Current streak
+  let current=0;
+  let check=activeDays[0]===today||activeDays[0]===yesterday?activeDays[0]:null;
+  if(check){
+    current=1;
+    for(let i=1;i<activeDays.length;i++){
+      const prev=new Date(check+'T12:00:00');
+      prev.setDate(prev.getDate()-1);
+      const prevKey=dateKey(prev);
+      if(activeDays[i]===prevKey){current++;check=prevKey;}
+      else break;
+    }
+  }
+  // Longest streak
+  let longest=1,run=1;
+  for(let i=1;i<activeDays.length;i++){
+    const prev=new Date(activeDays[i-1]+'T12:00:00');
+    prev.setDate(prev.getDate()-1);
+    if(activeDays[i]===dateKey(prev)){run++;}
+    else run=1;
+    if(run>longest)longest=run;
+  }
+  return{current,longest};
+}
+function renderDailyResetStatus(){
+  const done=didDailyResetToday();
+  const el=document.getElementById('daily-reset-status');
+  if(!el)return;
+  el.innerHTML=done
+    ?'<div style="background:var(--green-bg);border:0.5px solid var(--green);border-radius:var(--radius-lg);padding:.75rem 1rem;margin-bottom:1rem;font-size:13px;color:var(--green-text)">✓ Daily Reset done today</div>'
+    :'<div style="background:var(--amber-bg);border:0.5px solid var(--amber);border-radius:var(--radius-lg);padding:.75rem 1rem;margin-bottom:1rem;font-size:13px;color:var(--amber-text);display:flex;justify-content:space-between;align-items:center"><span>☀️ Daily Reset not done yet today</span><button class="btn btn-xs" onclick="todayFilter(\'daily\',document.querySelector(\'[onclick*=todayFilter\\\'daily\\\']\\'))" style="font-size:12px">Do it now →</button></div>';
+}
+
+/* ---- TODAY ---- */
+function todayFilter(f,btn){todayFilterVal=f;document.querySelectorAll('#today-filters .filter-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');selectedWorkout=null;document.getElementById('selected-detail').style.display='none';renderTodayGrid();}
+function renderTodayGrid(){
+  const phase=getCurrentPhase();let ws=WORKOUTS.filter(w=>w.phase.includes(phase));
+  if(todayFilterVal==='15')ws=ws.filter(w=>w.mins<=15);
+  else if(todayFilterVal==='30')ws=ws.filter(w=>w.mins>15);
+  else if(todayFilterVal==='rehab')ws=ws.filter(w=>w.focus==='rehab');
+  else if(todayFilterVal==='daily')ws=ws.filter(w=>w.id==='w14');
+  else if(todayFilterVal!=='all')ws=ws.filter(w=>w.focus===todayFilterVal);
+  document.getElementById('today-grid').innerHTML=ws.map(w=>`
+    <div class="workout-card${selectedWorkout&&selectedWorkout.id===w.id?' selected':''}${currentRec&&currentRec.workout&&currentRec.workout.id===w.id&&!(selectedWorkout&&selectedWorkout.id===w.id)?' recommended':''}" onclick="selectWorkout('${w.id}')">
+      <h3>${w.name}</h3><div class="meta">${w.mins} min · ${w.exercises.length} exercises</div>
+      <span class="tag tag-${w.focus}">${w.focus}</span><span class="tag tag-${w.mins<=15?'15':'30'}">${w.mins} min</span>
+    </div>`).join('');
+}
+function buildExRows(exercises,prefix){
+  return exercises.map((e,i)=>`
+    <div class="ex-item">
+      <div class="ex-header" onclick="toggleTip('${prefix}-${i}')">
+        <span class="ex-name">${e.name}</span>
+        <span style="display:flex;align-items:center;gap:8px"><span class="ex-sets">${e.sets}</span><span class="ex-toggle">▸ how-to</span></span>
+      </div>
+      <div class="ex-tip" id="${prefix}-${i}">
+        <div class="tip-what">Works: ${e.tip.what}</div>
+        <div style="margin-top:4px"><strong>How:</strong> ${e.tip.how}</div>
+        <div style="margin-top:4px;color:var(--amber-text)"><strong>Watch out:</strong> ${e.tip.watch}</div>
+      </div>
+    </div>`).join('');
+}
+function selectWorkout(id){
+  selectedWorkout=WORKOUTS.find(w=>w.id===id)||null;renderTodayGrid();
+  const det=document.getElementById('selected-detail');
+  if(!selectedWorkout){det.style.display='none';return;}
+  det.innerHTML=`<div class="workout-detail"><h3>${selectedWorkout.name} — ${selectedWorkout.mins} min</h3>
+    ${buildExRows(selectedWorkout.exercises,'td-'+id)}
+    <div style="margin-top:1rem;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-green" onclick="logWorkout()">Log this workout ✓</button>
+      <button class="btn btn-sm" onclick="selectedWorkout=null;document.getElementById('selected-detail').style.display='none';renderTodayGrid()">Cancel</button>
+    </div>
+  </div>`;
+  det.style.display='block';det.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function toggleTip(id){const el=document.getElementById(id);if(el)el.classList.toggle('open');}
+async function logWorkout(){
+  if(!selectedWorkout)return;
+  const now=new Date();
+  const s={id:'s'+Date.now(),workout_id:selectedWorkout.id,workout_name:selectedWorkout.name,focus:selectedWorkout.focus,duration_mins:selectedWorkout.mins,phase:getCurrentPhase(),session_type:'workout',logged_at:now.toISOString()};
+  setSyncStatus('loading','Saving...');
+  try{
+    await sbInsert('workout_sessions',s);
+    sessions.unshift(s);setSyncStatus('ok','Logged!');
+    selectedWorkout=null;currentMood=null;
+    document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('selected-detail').style.display='none';
+    renderTodayGrid();renderRec();renderDailyResetStatus();switchTab('progress');
+  }catch(e){setSyncStatus('err','Log failed');}
+}
+async function logRest(){
+  const now=new Date();
+  const s={id:'s'+Date.now(),workout_id:'rest',workout_name:'Rest / recovery day',focus:'rest',duration_mins:0,phase:getCurrentPhase(),session_type:'rest',logged_at:now.toISOString()};
+  setSyncStatus('loading','Saving...');
+  try{await sbInsert('workout_sessions',s);sessions.unshift(s);setSyncStatus('ok','Logged!');renderDailyResetStatus();switchTab('progress');}
+  catch(e){setSyncStatus('err','Log failed');}
+}
+
+/* ---- PROGRESS ---- */
+function renderProgress(){
+  const total=sessions.length,workouts=sessions.filter(s=>s.session_type==='workout').length;
+  const resets=sessions.filter(s=>s.workout_id==='w14').length;
+  const pct=Math.min(Math.round((total/90)*100),100),phase=getCurrentPhase();
+  const{current,longest}=computeStreak();
+
+  // Streak cards
+  document.getElementById('stats-row').innerHTML=`
+    <div class="stat-card"><div class="val">${current}</div><div class="lbl">Day streak 🔥</div></div>
+    <div class="stat-card"><div class="val">${longest}</div><div class="lbl">Best streak</div></div>
+    <div class="stat-card"><div class="val">${workouts}</div><div class="lbl">Workouts</div></div>
+    <div class="stat-card"><div class="val">${resets}</div><div class="lbl">Daily resets</div></div>`;
+
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-label').textContent=`${total} of 90 sessions · Phase ${phase}: ${['','Foundation','Build','Peak'][phase]}`;
+  [1,2,3].forEach(p=>document.getElementById('phase-b'+p).classList.toggle('active-phase',p===phase));
+
+  const gb=document.getElementById('goal-banner-progress');
+  if(selectedGoal){gb.style.display='flex';document.getElementById('goal-text-progress').textContent=selectedGoal.name;}else gb.style.display='none';
+
+  // Calendar grid — last 90 days
+  renderCalendar();
+
+  // Dot grid (sequential)
+  [1,2,3].forEach(p=>{
+    const start=(p-1)*30,c=document.getElementById('dots-'+p);c.innerHTML='';
+    const workoutSessions=sessions.filter(s=>s.session_type==='workout');
+    for(let i=0;i<30;i++){
+      const d=document.createElement('div');d.className='dot';
+      if(start+i<workoutSessions.length){const s=workoutSessions[workoutSessions.length-1-(start+i)];d.className='dot '+(s&&s.session_type==='rest'?'rest':'done');}
+      c.appendChild(d);
+    }
+  });
+
+  // Recent log sorted by date
+  const log=document.getElementById('recent-log');
+  if(!sessions.length){log.innerHTML='<div class="empty-state">No sessions yet — start today!</div>';return;}
+  const sorted=[...sessions].sort((a,b)=>new Date(b.logged_at)-new Date(a.logged_at));
+  // Group by date
+  const byDate={};
+  sorted.forEach(s=>{
+    const dk=sessionDateKey(s);
+    if(!byDate[dk])byDate[dk]=[];
+    byDate[dk].push(s);
+  });
+  log.innerHTML=Object.entries(byDate).slice(0,14).map(([dk,daySessions])=>{
+    const d=new Date(dk+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    const entries=daySessions.map(s=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid var(--border)">
+        <div><div class="entry-name">${s.workout_name}</div><div class="entry-meta">${s.duration_mins?' · '+s.duration_mins+' min':''}</div></div>
+        <button class="del-btn" onclick="deleteSession('${s.id}')">×</button>
+      </div>`).join('');
+    return `<div style="margin-bottom:12px"><div style="font-size:12px;font-weight:500;color:var(--text2);margin-bottom:4px">${d}</div>${entries}</div>`;
   }).join('');
 }
-function toggleItemForm(){
-  const f=document.getElementById('item-form');
+
+function renderCalendar(){
+  const el=document.getElementById('calendar-grid');
+  if(!el)return;
+  // Build date → sessions map
+  const dateMap={};
+  sessions.forEach(s=>{
+    const dk=sessionDateKey(s);
+    if(!dateMap[dk])dateMap[dk]=[];
+    dateMap[dk].push(s);
+  });
+  // Generate last 84 days (12 weeks)
+  const today=new Date();today.setHours(0,0,0,0);
+  const days=[];
+  for(let i=83;i>=0;i--){
+    const d=new Date(today);d.setDate(today.getDate()-i);
+    days.push(d);
+  }
+  // Week headers
+  const weekDays=['S','M','T','W','T','F','S'];
+  const headerHTML=weekDays.map(d=>`<div style="font-size:10px;color:var(--text3);text-align:center;padding-bottom:4px">${d}</div>`).join('');
+  // Pad start
+  const firstDow=days[0].getDay();
+  const padHTML=Array(firstDow).fill('<div></div>').join('');
+  const cellHTML=days.map(d=>{
+    const dk=dateKey(d);
+    const daySessions=dateMap[dk]||[];
+    const hasReset=daySessions.some(s=>s.workout_id==='w14');
+    const hasWorkout=daySessions.some(s=>s.session_type==='workout'&&s.workout_id!=='w14');
+    const hasRest=daySessions.some(s=>s.session_type==='rest');
+    const isToday=dk===dateKey();
+    let bg='var(--bg2)';let title='';
+    if(hasWorkout&&hasReset){bg='var(--green)';title='Workout + Daily Reset';}
+    else if(hasWorkout){bg='var(--green)';title='Workout';}
+    else if(hasReset){bg='#5DCAA5';title='Daily Reset';}
+    else if(hasRest){bg='var(--blue-bg)';title='Rest day';}
+    const border=isToday?'2px solid var(--text)':'0.5px solid var(--border)';
+    const names=daySessions.map(s=>s.workout_name).join(', ');
+    return `<div style="aspect-ratio:1;border-radius:3px;background:${bg};border:${border};cursor:${names?'pointer':'default'}" title="${names||dk}"></div>`;
+  }).join('');
+  el.innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:8px">${headerHTML}</div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px">${padHTML}${cellHTML}</div>
+    <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:2px;background:var(--green)"></div>Workout</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:2px;background:#5DCAA5"></div>Daily Reset</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:2px;background:var(--blue-bg)"></div>Rest</div>
+    </div>`;
+}
+
+async function deleteSession(id){if(!confirm('Remove this session?'))return;try{await sbDelete('workout_sessions',id);sessions=sessions.filter(s=>s.id!==id);renderProgress();renderDailyResetStatus();setSyncStatus('ok','Removed');}catch(e){setSyncStatus('err','Delete failed');}}
+async function resetProgress(){setSyncStatus('loading','Resetting...');try{for(const s of [...sessions])await sbDelete('workout_sessions',s.id);sessions=[];renderProgress();renderDailyResetStatus();setSyncStatus('ok','Reset');}catch(e){setSyncStatus('err','Reset failed');}}
+function togglePRForm(){
+  const f=document.getElementById('pr-form');
   const show=f.style.display==='none';
-  if(show){editingItemId=null;resetItemForm();}
   f.style.display=show?'block':'none';
-  document.getElementById('toggle-item-form-btn').textContent=show?'Cancel':'+ Add item';
-  if(show)f.scrollIntoView({behavior:'smooth',block:'start'});
+  if(show){renderPRExerciseSelect();selectedExerciseId=null;['pr-weight','pr-reps','pr-sets'].forEach(id=>document.getElementById(id).value='');}
 }
-function cancelItemForm(){
-  document.getElementById('item-form').style.display='none';
-  document.getElementById('toggle-item-form-btn').textContent='+ Add item';
-  editingItemId=null;
+function renderPRExerciseSelect(){
+  document.getElementById('pr-exercise-select').innerHTML=TRACKABLE.map(e=>`
+    <div class="pr-ex-option${selectedExerciseId===e.id?' selected':''}" onclick="selectPRExercise('${e.id}')">
+      ${e.name}<div style="font-size:10px;color:var(--text3);margin-top:2px">${e.unit}</div>
+    </div>`).join('');
 }
-function resetItemForm(){
-  ['fi-name','fi-qty','fi-notes'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('fi-cat').value='snack';
-  document.getElementById('item-form-title').textContent='New item';
-}
-function editItem(id){
-  const item=savedItems.find(x=>x.id===id);if(!item)return;
-  editingItemId=id;
-  document.getElementById('item-form-title').textContent='Edit item';
-  document.getElementById('fi-name').value=item.name;
-  document.getElementById('fi-qty').value=item.qty||'';
-  document.getElementById('fi-cat').value=item.category||'other';
-  document.getElementById('fi-notes').value=item.notes||'';
-  document.getElementById('item-form').style.display='block';
-  document.getElementById('toggle-item-form-btn').textContent='Cancel';
-  document.getElementById('item-form').scrollIntoView({behavior:'smooth',block:'start'});
-}
-async function saveItem(nameOverride,catOverride){
-  const name=(nameOverride||document.getElementById('fi-name').value).trim();
-  if(!name)return null;
-  const item={
-    id:editingItemId||'i'+Date.now(),
-    name,
-    qty:nameOverride?'':document.getElementById('fi-qty').value.trim(),
-    category:catOverride||document.getElementById('fi-cat').value,
-    notes:nameOverride?'':document.getElementById('fi-notes').value.trim()
+function selectPRExercise(id){selectedExerciseId=id;renderPRExerciseSelect();}
+function setPRType(type,btn){prType=type;document.querySelectorAll('#pr-form .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+async function saveRecord(){
+  if(!selectedExerciseId)return alert('Pick an exercise first.');
+  const ex=TRACKABLE.find(e=>e.id===selectedExerciseId);
+  const rec={
+    id:'r'+Date.now(),
+    exercise_name:ex.name,
+    exercise_id:selectedExerciseId,
+    weight_lbs:parseFloat(document.getElementById('pr-weight').value)||null,
+    reps:parseInt(document.getElementById('pr-reps').value)||null,
+    sets:parseInt(document.getElementById('pr-sets').value)||null,
+    record_type:prType,
+    notes:''
   };
   setSyncStatus('loading','Saving...');
   try{
-    await sbUpsert('items',item);
-    if(editingItemId){const i=savedItems.findIndex(x=>x.id===editingItemId);if(i>=0)savedItems[i]=item;}
-    else savedItems.push(item);
-    setSyncStatus('ok','Saved');
-    if(!nameOverride){cancelItemForm();renderItems();}
-    return item;
-  }catch(e){setSyncStatus('err','Save failed');return null;}
-}
-async function deleteItem(id){
-  if(!confirm('Delete this item?'))return;
-  try{
-    await sbDelete('items',id);
-    savedItems=savedItems.filter(x=>x.id!==id);
-    setSyncStatus('ok','Deleted');renderItems();
-  }catch(e){setSyncStatus('err','Delete failed');}
-}
-
-/* ---- PLAN TRIP ---- */
-function planFilter(f,btn){
-  planFilterCat=f;
-  document.querySelectorAll('#plan-filters .filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
-function changeDayCount(delta){
-  const cur=parseInt(document.getElementById('day-count-display').textContent)||7;
-  const next=Math.max(1,Math.min(14,cur+delta));
-  document.getElementById('day-count-display').textContent=next;
-  draft.dayCount=next;
-  renderDayGrid();renderWeekItemsPanel();
-}
-function applyTripConfig(){
-  draft.tripName=document.getElementById('trip-name-input').value.trim();
-  draft.startDate=document.getElementById('trip-start-date').value||todayStr();
-  draft.dayCount=parseInt(document.getElementById('day-count-display').textContent)||7;
-  if(!draft.tripName) draft.tripName=defaultTripName(draft.startDate,draft.dayCount);
-  document.getElementById('trip-name-input').value=draft.tripName;
-  renderDayGrid();schedSaveDraft();
-}
-function renderPlan(){
-  // Init config inputs
-  document.getElementById('trip-name-input').value=draft.tripName||defaultTripName(draft.startDate,draft.dayCount);
-  document.getElementById('trip-start-date').value=draft.startDate;
-  document.getElementById('day-count-display').textContent=draft.dayCount;
-  renderDayGrid();
-  renderWeekItemsPanel();
-  const hasEntries=Object.values(draft.plan).flat().length>0||draft.weekItems.length>0;
-  document.getElementById('submit-bar-msg').textContent=hasEntries?'Ready to submit? This will lock in the trip and generate your shopping list.':'Add meals and items above, then submit to generate your shopping list.';
-  document.getElementById('submit-btn').textContent='Submit trip';
-}
-function renderDayGrid(){
-  const keys=getDayKeys();
-  const grid=document.getElementById('plan-week-grid');
-  // Set columns dynamically
-  const cols=Math.min(keys.length,7);
-  grid.style.gridTemplateColumns=`repeat(${cols},1fr)`;
-  grid.innerHTML=keys.map(dateKey=>{
-    const entries=(draft.plan[dateKey]||[]).map((entry,idx)=>{
-      const label=entry.type==='recipe'?(recipes.find(x=>x.id===entry.id)||{name:'?'}).name:entry.name;
-      const cls=entry.type==='item'?'planned-meal is-item':'planned-meal';
-      return `<div class="${cls}"><span style="flex:1">${label}</span><button class="rm" onclick="removePlanEntry('${dateKey}',${idx})">×</button></div>`;
-    }).join('');
-    const note=draft.notes[dateKey]||'';
-    const d=new Date(dateKey+'T00:00:00');
-    const dayName=d.toLocaleDateString('en-US',{weekday:'short'});
-    const dayDate=d.toLocaleDateString('en-US',{month:'numeric',day:'numeric'});
-    return `<div class="day-col">
-      <div class="day-label"><div>${dayName}</div><div class="day-name">${dayDate}</div></div>
-      <div class="day-slot">${entries}<div class="add-to-day" onclick="openPicker('${dateKey}')">+</div></div>
-      <textarea class="day-note-input" rows="2" placeholder="Note..." onchange="saveDayNote('${dateKey}',this.value)">${note}</textarea>
-    </div>`;
-  }).join('');
-}
-function openPicker(dateKey){
-  pickerDay=dateKey;
-  const d=new Date(dateKey+'T00:00:00');
-  document.getElementById('picker-day-label').textContent=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
-  switchPickerTab('recipes',document.querySelector('.picker-tab'));
-  document.getElementById('picker-panel').style.display='block';
-}
-function closePicker(){document.getElementById('picker-panel').style.display='none';pickerDay=null;}
-function switchPickerTab(tab,btn){
-  pickerTab=tab;
-  document.querySelectorAll('.picker-tab').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-  document.getElementById('picker-recipes-pane').style.display=tab==='recipes'?'block':'none';
-  document.getElementById('picker-items-pane').style.display=tab==='items'?'block':'none';
-  if(tab==='recipes')renderPickerRecipes();
-  if(tab==='items')renderPickerItems();
-}
-function renderPickerRecipes(){
-  const rs=planFilterCat==='all'?recipes:recipes.filter(r=>r.cat===planFilterCat);
-  document.getElementById('picker-grid').innerHTML=rs.map(r=>`<div class="picker-item" onclick="addPlanRecipe('${r.id}')"><strong>${r.name}</strong><div class="item-sub">${CAT_LABELS[r.cat]||r.cat}</div></div>`).join('');
-}
-function renderPickerItems(){
-  const grid=document.getElementById('picker-items-grid');
-  if(!savedItems.length){grid.innerHTML='<div style="font-size:12px;color:var(--text3);padding:8px 0">No saved items yet — type one below</div>';return;}
-  grid.innerHTML=savedItems.map(item=>`<div class="picker-item" onclick="addPlanItem('${item.id}')"><strong>${item.name}</strong><div class="item-sub">${item.qty||CAT_LABELS[item.category]||''}</div></div>`).join('');
-}
-function addPlanRecipe(rid){
-  if(!draft.plan[pickerDay])draft.plan[pickerDay]=[];
-  draft.plan[pickerDay].push({type:'recipe',id:rid});
-  closePicker();renderDayGrid();schedSaveDraft();
-}
-function addPlanItem(iid){
-  const item=savedItems.find(x=>x.id===iid);if(!item)return;
-  if(!draft.plan[pickerDay])draft.plan[pickerDay]=[];
-  draft.plan[pickerDay].push({type:'item',id:iid,name:item.name,category:item.category,qty:item.qty});
-  closePicker();renderDayGrid();schedSaveDraft();
-}
-async function addFreeformItem(){
-  const input=document.getElementById('freeform-input');
-  const name=input.value.trim();if(!name)return;
-  const cat=document.getElementById('freeform-cat').value;
-  const existing=savedItems.find(x=>x.name.toLowerCase()===name.toLowerCase());
-  let item=existing;
-  if(!existing){item=await saveItem(name,cat);renderItems();}
-  if(!item)return;
-  if(!draft.plan[pickerDay])draft.plan[pickerDay]=[];
-  draft.plan[pickerDay].push({type:'item',id:item.id,name:item.name,category:item.category,qty:item.qty||''});
-  input.value='';closePicker();renderDayGrid();schedSaveDraft();
-}
-function removePlanEntry(dateKey,idx){
-  draft.plan[dateKey].splice(idx,1);
-  renderDayGrid();schedSaveDraft();
-}
-function saveDayNote(dateKey,val){
-  draft.notes[dateKey]=val;schedSaveDraft();
-}
-
-/* ---- WEEK ITEMS PANEL ---- */
-function renderWeekItemsPanel(){
-  const list=document.getElementById('week-items-list');
-  if(list){
-    list.innerHTML=draft.weekItems.length
-      ?draft.weekItems.map((item,idx)=>`<div class="item-chip"><span>${item.name}${item.qty?' ('+item.qty+')':''}</span><button onclick="removeWeekItem(${idx})">×</button></div>`).join('')
-      :'<span style="font-size:12px;color:var(--text3)">Nothing added yet</span>';
-  }
-  const row=document.getElementById('week-saved-items-row');
-  if(row){
-    row.innerHTML=savedItems.map(item=>`<button onclick="addWeekItemFromSaved('${item.id}')" class="quick-pick">${item.name}</button>`).join('');
-  }
-}
-async function addWeekItem(){
-  const input=document.getElementById('week-item-input');
-  const name=input.value.trim();if(!name)return;
-  const cat=document.getElementById('week-item-cat').value;
-  const existing=savedItems.find(x=>x.name.toLowerCase()===name.toLowerCase());
-  let item=existing;
-  if(!existing){item=await saveItem(name,cat);renderItems();}
-  if(!item)return;
-  if(!draft.weekItems.find(x=>x.id===item.id))
-    draft.weekItems.push({id:item.id,name:item.name,category:item.category,qty:item.qty||''});
-  input.value='';renderWeekItemsPanel();schedSaveDraft();
-}
-function addWeekItemFromSaved(iid){
-  const item=savedItems.find(x=>x.id===iid);if(!item)return;
-  if(draft.weekItems.find(x=>x.id===iid))return;
-  draft.weekItems.push({id:item.id,name:item.name,category:item.category,qty:item.qty||''});
-  renderWeekItemsPanel();schedSaveDraft();
-}
-function removeWeekItem(idx){
-  draft.weekItems.splice(idx,1);
-  renderWeekItemsPanel();schedSaveDraft();
-}
-
-/* ---- SAVE DRAFT ---- */
-function schedSaveDraft(){clearTimeout(saveTimer);saveTimer=setTimeout(saveDraft,800);}
-async function saveDraft(){
-  const tripId=currentTripId||('trip-'+Date.now());
-  currentTripId=tripId;
-  const tripName=draft.tripName||defaultTripName(draft.startDate,draft.dayCount);
-  setSyncStatus('loading','Saving...');
-  try{
-    await sbUpsert('weeks',{
-      week_key:tripId,
-      trip_name:tripName,
-      start_date:draft.startDate,
-      day_count:draft.dayCount,
-      plan:draft.plan,
-      notes:draft.notes,
-      week_items:draft.weekItems,
-      submitted:false,
-      shopping:{}
-    });
-    setSyncStatus('ok','Saved');
+    await sbInsert('exercise_records',rec);
+    records.push(rec);setSyncStatus('ok','Saved');
+    togglePRForm();renderRecords();
   }catch(e){setSyncStatus('err','Save failed');}
 }
-
-async function submitTrip(){
-  const tripId=currentTripId||('trip-'+Date.now());
-  currentTripId=tripId;
-  const tripName=draft.tripName||defaultTripName(draft.startDate,draft.dayCount);
-  setSyncStatus('loading','Saving...');
-  try{
-    await sbUpsert('weeks',{
-      week_key:tripId,
-      trip_name:tripName,
-      start_date:draft.startDate,
-      day_count:draft.dayCount,
-      plan:draft.plan,
-      notes:draft.notes,
-      week_items:draft.weekItems,
-      submitted:true,
-      shopping:{}
-    });
-    // Update local trips list
-    const idx=trips.findIndex(t=>t.week_key===tripId);
-    const rec={week_key:tripId,trip_name:tripName,start_date:draft.startDate,day_count:draft.dayCount,plan:draft.plan,notes:draft.notes,week_items:draft.weekItems,submitted:true,shopping:{}};
-    if(idx>=0)trips[idx]=rec;else trips.unshift(rec);
-    // Reset draft for next trip
-    draft={tripName:'',startDate:todayStr(),dayCount:7,plan:{},notes:{},weekItems:[]};
-    currentTripId=null;
-    setSyncStatus('ok','Trip submitted!');
-    switchTab('thistrip');
-  }catch(e){setSyncStatus('err','Save failed');}
-}
-
-/* ---- THIS TRIP ---- */
-function getLatestSubmittedTrip(){return trips.find(t=>t.submitted);}
-function renderThisTrip(){
-  const trip=getLatestSubmittedTrip();
-  const title=document.getElementById('thistrip-title');
-  const el=document.getElementById('thistrip-meals');
-  if(!trip){
-    title.textContent='This trip';
-    el.innerHTML='<div class="empty-state">No trip submitted yet.<br><button class="btn btn-sm btn-primary" onclick="switchTab(\'plan\')" style="margin-top:12px">Plan a trip →</button></div>';
-    return;
-  }
-  title.textContent=trip.trip_name||'This trip';
-  // Build day cards
-  const startDate=trip.start_date||todayStr();
-  const dayCount=trip.day_count||7;
-  const dayKeys=[];for(let i=0;i<dayCount;i++)dayKeys.push(addDays(startDate,i));
-  const dayCards=dayKeys.map(dateKey=>{
-    const entries=(trip.plan[dateKey]||[]).map(e=>{
-      const label=e.type==='recipe'?(recipes.find(x=>x.id===e.id)||{name:'?'}).name:e.name;
-      return `<div class="meal-name${e.type==='item'?' is-item':''}">${label}</div>`;
-    }).join('');
-    const note=trip.notes&&trip.notes[dateKey]?`<div class="day-note">${trip.notes[dateKey]}</div>`:'';
-    const d=new Date(dateKey+'T00:00:00');
-    const label=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
-    return `<div class="trip-day-card"><div class="day-title">${label}</div>${entries||'<div style="color:var(--text3);font-size:12px">Nothing planned</div>'}${note}</div>`;
-  }).join('');
-  el.innerHTML=`<div class="trip-day-grid">${dayCards}</div>`;
-}
-
-/* ---- SHOPPING LIST ---- */
-function getShopCat(n){
-  const nl=n.toLowerCase();
-  for(const[c,ws]of Object.entries(SHOP_CATS)){if(c==='pantry')continue;if(ws.some(w=>nl.includes(w)))return c;}
-  return'pantry';
-}
-function renderShopping(){
-  const trip=getLatestSubmittedTrip();
-  const content=document.getElementById('shopping-content');
-  if(!trip){content.innerHTML='<div class="empty-state">Submit a trip to generate the shopping list.</div>';return;}
-  const allEntries=Object.values(trip.plan||{}).flat();
-  const weekItems=trip.week_items||[];
-  if(!allEntries.length&&!weekItems.length){content.innerHTML='<div class="empty-state">No meals or items planned.</div>';return;}
-  const aggr={};
-  allEntries.forEach(entry=>{
-    if(entry.type==='recipe'){
-      const r=recipes.find(x=>x.id===entry.id);if(!r)return;
-      (r.ingredients||[]).forEach(ing=>{
-        if(ing.staple)return;
-        const key=ing.name.toLowerCase().trim();
-        if(!aggr[key])aggr[key]={name:ing.name,entries:[],shopCat:getShopCat(ing.name)};
-        aggr[key].entries.push({qty:ing.qty,unit:ing.unit});
-      });
-    }else if(entry.type==='item'){
-      const key=entry.name.toLowerCase().trim();
-      if(!aggr[key])aggr[key]={name:entry.name,entries:[],shopCat:entry.category||getShopCat(entry.name)};
-      if(entry.qty)aggr[key].entries.push({qty:entry.qty,unit:''});
+function renderRecords(){
+  const container=document.getElementById('pr-cards');
+  // Group records by exercise
+  const byEx={};
+  records.forEach(r=>{
+    if(!byEx[r.exercise_name])byEx[r.exercise_name]={baseline:null,prs:[]};
+    if(r.record_type==='baseline')byEx[r.exercise_name].baseline=r;
+    else byEx[r.exercise_name].prs.push(r);
+  });
+  if(!Object.keys(byEx).length){container.innerHTML='<div class="empty-state">No records yet. Log your baselines to get started — they\'ll show you how far you\'ve come.</div>';return;}
+  container.innerHTML='<div class="pr-grid">'+Object.entries(byEx).map(([name,data])=>{
+    const baseline=data.baseline;
+    const latestPR=data.prs.sort((a,b)=>new Date(b.logged_at)-new Date(a.logged_at))[0];
+    const current=latestPR||baseline;
+    function fmtRecord(r){if(!r)return'—';const parts=[];if(r.weight_lbs)parts.push(r.weight_lbs+'lbs');if(r.sets&&r.reps)parts.push(`${r.sets}×${r.reps}`);else if(r.reps)parts.push(r.reps+' reps');return parts.join(' · ')||'Logged';}
+    // Compute delta
+    let deltaHTML='';
+    if(baseline&&latestPR){
+      const bScore=(baseline.weight_lbs||0)+(baseline.reps||0);
+      const pScore=(latestPR.weight_lbs||0)+(latestPR.reps||0);
+      if(pScore>bScore)deltaHTML=`<span class="delta">↑ PR</span>`;
     }
-  });
-  weekItems.forEach(item=>{
-    const key=item.name.toLowerCase().trim();
-    if(!aggr[key])aggr[key]={name:item.name,entries:[],shopCat:item.category||getShopCat(item.name)};
-    if(item.qty)aggr[key].entries.push({qty:item.qty,unit:''});
-  });
-  const CAT_ORDER=['produce','protein','dairy','grains','snack','drinks','household','pantry'];
-  const CAT_DISPLAY={produce:'Produce',protein:'Protein & meat',dairy:'Dairy',grains:'Grains & bread',snack:'Snacks',drinks:'Drinks',household:'Household',pantry:'Pantry & other'};
-  const byC={};CAT_ORDER.forEach(c=>byC[c]=[]);
-  Object.values(aggr).forEach(item=>{const c=CAT_ORDER.includes(item.shopCat)?item.shopCat:'pantry';byC[c].push(item);});
-  const checked=trip.shopping||{};
-  const html=CAT_ORDER.filter(cat=>byC[cat].length).map(cat=>{
-    const rows=byC[cat].map(item=>{
-      const key='chk-'+item.name.replace(/\W/g,'_');
-      const isChecked=!!checked[key];
-      const qtyStr=item.entries.filter(e=>e.qty).map(e=>(e.qty+(e.unit?' '+e.unit:'')).trim()).join(' + ');
-      return `<div class="shop-item${isChecked?' checked':''}" id="si-${key}"><input type="checkbox" id="${key}"${isChecked?' checked':''} onchange="toggleCheck('${key}')"><label for="${key}">${item.name}${qtyStr?` <span style="color:var(--text3);font-size:13px">(${qtyStr})</span>`:''}</label></div>`;
-    }).join('');
-    return `<div class="shop-section"><h3>${CAT_DISPLAY[cat]}</h3>${rows}</div>`;
-  }).join('');
-  content.innerHTML=html||'<div class="empty-state">All ingredients are pantry staples — nothing to buy!</div>';
-}
-async function toggleCheck(key){
-  const trip=getLatestSubmittedTrip();if(!trip)return;
-  if(!trip.shopping)trip.shopping={};
-  trip.shopping[key]=!trip.shopping[key];
-  const row=document.getElementById('si-'+key);
-  if(row)row.classList.toggle('checked',trip.shopping[key]);
-  clearTimeout(saveTimer);saveTimer=setTimeout(async()=>{
-    try{await sbUpsert('weeks',{week_key:trip.week_key,shopping:trip.shopping});setSyncStatus('ok','Saved');}
-    catch(e){setSyncStatus('err','Save failed');}
-  },800);
-}
-async function clearChecked(){
-  const trip=getLatestSubmittedTrip();if(!trip)return;
-  trip.shopping={};renderShopping();
-  try{await sbUpsert('weeks',{week_key:trip.week_key,shopping:{}});setSyncStatus('ok','Cleared');}
-  catch(e){setSyncStatus('err','Save failed');}
-}
-
-/* ---- PAST TRIPS ---- */
-function renderHistory(){
-  const content=document.getElementById('history-content');
-  const past=trips.filter(t=>t.submitted).slice(0);
-  if(!past.length){content.innerHTML='<div class="empty-state">No past trips yet. Submitted trips will appear here.</div>';return;}
-  content.innerHTML='<div class="trips-list">'+past.map(trip=>{
-    const names=Object.values(trip.plan||{}).flat().map(e=>e.type==='recipe'?(recipes.find(x=>x.id===e.id)||{name:'?'}).name:e.name);
-    const unique=[...new Set(names)];
-    const itemNames=(trip.week_items||[]).map(i=>i.name);
-    const allNames=[...unique,...itemNames];
-    return `<div class="trip-item">
-      <h3>${trip.trip_name||'Unnamed trip'}</h3>
-      <div class="trip-date">${trip.start_date?dateLabel(trip.start_date):''}</div>
-      <div class="meal-preview">${allNames.slice(0,8).join(' · ')}${allNames.length>8?` · +${allNames.length-8} more`:''}</div>
-      <button class="btn btn-xs" style="margin-top:8px" onclick="copyTrip('${trip.week_key}')">Copy to new trip</button>
+    return `<div class="pr-card">
+      <button class="pr-edit-btn" onclick="quickLogPR('${name}')">+ PR</button>
+      <h3>${name}</h3>
+      <div class="pr-row"><span class="label">Baseline</span><span class="val">${fmtRecord(baseline)}</span></div>
+      <div class="pr-row"><span class="label">Current best</span><span class="val">${fmtRecord(current)} ${deltaHTML}</span></div>
+      ${data.prs.length>1?`<div style="font-size:11px;color:var(--text3);margin-top:6px">${data.prs.length} PRs logged</div>`:''}
     </div>`;
   }).join('')+'</div>';
 }
-function copyTrip(tripId){
-  const from=trips.find(t=>t.week_key===tripId);if(!from)return;
-  if(!confirm(`Copy meals from this trip to a new plan?`))return;
-  draft={
-    tripName:'',
-    startDate:todayStr(),
-    dayCount:from.day_count||7,
-    plan:JSON.parse(JSON.stringify(from.plan||{})),
-    notes:{},
-    weekItems:JSON.parse(JSON.stringify(from.week_items||[]))
-  };
-  currentTripId=null;
-  switchTab('plan');
+function quickLogPR(exerciseName){
+  const ex=TRACKABLE.find(e=>e.name===exerciseName);
+  if(!ex)return;
+  togglePRForm();
+  // Pre-select exercise
+  selectedExerciseId=ex.id;renderPRExerciseSelect();
+  // Set to PR type
+  prType='pr';
+  document.querySelectorAll('#pr-form .filter-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('type-pr').classList.add('active');
+  document.getElementById('pr-form').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function render(){renderRecipes();}
+/* ---- WEIGHT ---- */
+async function saveWeighIn(){
+  const wt=parseFloat(document.getElementById('wi-weight').value);
+  const dt=document.getElementById('wi-date').value||todayStr();
+  if(!wt||wt<50||wt>500)return alert('Enter a valid weight.');
+  const entry={id:'w'+Date.now(),weight_lbs:wt,logged_at:dt+'T12:00:00'};
+  setSyncStatus('loading','Saving...');
+  try{
+    await sbInsert('weigh_ins',entry);
+    weighIns.push(entry);weighIns.sort((a,b)=>new Date(a.logged_at)-new Date(b.logged_at));
+    setSyncStatus('ok','Saved');document.getElementById('wi-weight').value='';
+    renderWeight();
+  }catch(e){setSyncStatus('err','Save failed');}
+}
+async function clearWeighIns(){
+  if(!confirm('Clear all weigh-ins?'))return;
+  setSyncStatus('loading','Clearing...');
+  try{for(const w of [...weighIns])await sbDelete('weigh_ins',w.id);weighIns=[];renderWeight();setSyncStatus('ok','Cleared');}
+  catch(e){setSyncStatus('err','Failed');}
+}
+function renderWeight(){
+  const wrap=document.getElementById('weight-chart-wrap');
+  const logEl=document.getElementById('wi-log');
+  if(!weighIns.length){wrap.style.display='none';logEl.innerHTML='<div class="empty-state">No weigh-ins yet. Log your first one above.</div>';return;}
+  wrap.style.display='block';
+  // Draw SVG chart
+  const vals=weighIns.map(w=>w.weight_lbs);
+  const minW=Math.min(...vals)-2,maxW=Math.max(...vals)+2;
+  const W=800,H=160,pad={t:10,r:20,b:30,l:45};
+  const cw=W-pad.l-pad.r,ch=H-pad.t-pad.b;
+  const xScale=i=>pad.l+(i/(Math.max(weighIns.length-1,1)))*cw;
+  const yScale=v=>pad.t+ch-(((v-minW)/(maxW-minW))*ch);
+  const points=weighIns.map((w,i)=>`${xScale(i)},${yScale(w.weight_lbs)}`).join(' ');
+  // Y axis labels
+  const yLabels=[minW,minW+(maxW-minW)/2,maxW].map(v=>`<text x="${pad.l-6}" y="${yScale(v)+4}" text-anchor="end" font-size="11" fill="var(--text3)">${Math.round(v)}</text>`).join('');
+  // X axis labels (first, last, middle)
+  const xLabels=[0,Math.floor(weighIns.length/2),weighIns.length-1].filter((v,i,a)=>a.indexOf(v)===i&&v<weighIns.length).map(i=>{
+    const d=new Date(weighIns[i].logged_at);
+    return `<text x="${xScale(i)}" y="${H-8}" text-anchor="middle" font-size="11" fill="var(--text3)">${d.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</text>`;
+  }).join('');
+  document.getElementById('weight-svg').innerHTML=`
+    <polyline points="${points}" fill="none" stroke="var(--green)" stroke-width="2" stroke-linejoin="round"/>
+    ${weighIns.map((w,i)=>`<circle cx="${xScale(i)}" cy="${yScale(w.weight_lbs)}" r="3.5" fill="var(--green)"/>`).join('')}
+    ${yLabels}${xLabels}
+    <line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t+ch}" stroke="var(--border2)" stroke-width="0.5"/>
+    <line x1="${pad.l}" y1="${pad.t+ch}" x2="${pad.l+cw}" y2="${pad.t+ch}" stroke="var(--border2)" stroke-width="0.5"/>`;
+  // Stats
+  const first=vals[0],last=vals[vals.length-1],diff=last-first;
+  document.getElementById('weight-stats').innerHTML=`
+    <div><span style="color:var(--text3)">Start:</span> <strong>${first} lbs</strong></div>
+    <div><span style="color:var(--text3)">Current:</span> <strong>${last} lbs</strong></div>
+    <div><span style="color:var(--text3)">Change:</span> <strong style="color:${diff<=0?'var(--green)':'var(--red)'}">${diff>0?'+':''}${diff.toFixed(1)} lbs</strong></div>
+    <div><span style="color:var(--text3)">Entries:</span> <strong>${weighIns.length}</strong></div>`;
+  // Log
+  logEl.innerHTML=[...weighIns].reverse().map(w=>{
+    const d=new Date(w.logged_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    return `<div class="log-entry"><div><div class="entry-name">${w.weight_lbs} lbs</div><div class="entry-meta">${d}</div></div><button class="del-btn" onclick="deleteWeighIn('${w.id}')">×</button></div>`;
+  }).join('');
+}
+async function deleteWeighIn(id){
+  try{await sbDelete('weigh_ins',id);weighIns=weighIns.filter(w=>w.id!==id);renderWeight();setSyncStatus('ok','Removed');}
+  catch(e){setSyncStatus('err','Delete failed');}
+}
+
+/* ---- LIBRARY ---- */
+function libFilter(f,btn){document.querySelectorAll('#lib-filters .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderLibrary(f);}
+function renderLibrary(f){
+  let ws=WORKOUTS;
+  if(f==='15')ws=ws.filter(w=>w.mins<=15);else if(f==='30')ws=ws.filter(w=>w.mins>15);else if(f!=='all')ws=ws.filter(w=>w.focus===f);
+  document.getElementById('library-content').innerHTML=ws.map(w=>`
+    <div style="background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;flex-wrap:wrap;gap:6px">
+        <div><h3 style="font-size:15px;font-weight:500;margin-bottom:3px">${w.name}</h3>
+        <div style="font-size:12px;color:var(--text2)">${w.mins} min · Phases: ${w.phase.map(p=>'P'+p).join(', ')}</div></div>
+        <div><span class="tag tag-${w.focus}">${w.focus}</span><span class="tag tag-${w.mins<=15?'15':'30'}">${w.mins} min</span></div>
+      </div>
+      ${buildExRows(w.exercises,'lib-'+w.id)}
+    </div>`).join('');
+}
+
+/* ---- GOAL ---- */
+function renderGoal(){
+  document.getElementById('goal-grid').innerHTML=GOALS.map(g=>`
+    <div class="goal-option${selectedGoal&&selectedGoal.id===g.id?' selected':''}" onclick="selectGoal('${g.id}')">
+      <h3>${g.name}</h3><p>${g.desc}</p><span class="goal-cat">${g.cat}</span>
+    </div>`).join('');
+  const curr=document.getElementById('goal-current');
+  if(selectedGoal){curr.style.display='block';document.getElementById('goal-current-text').textContent=selectedGoal.name;}else curr.style.display='none';
+}
+function selectGoal(id){selectedGoal=GOALS.find(g=>g.id===id)||null;localStorage.setItem('workout-goal-v1',JSON.stringify(selectedGoal));renderGoal();renderTodayBanner();}
+function clearGoal(){selectedGoal=null;localStorage.removeItem('workout-goal-v1');renderGoal();renderTodayBanner();}
+function renderTodayBanner(){
+  const b=document.getElementById('goal-banner-today'),nb=document.getElementById('no-goal-banner');
+  if(selectedGoal){b.style.display='flex';document.getElementById('goal-text-today').textContent=selectedGoal.name;nb.style.display='none';}
+  else{b.style.display='none';nb.style.display='flex';}
+}
+function renderPhaseCard(){
+  const info=PHASE_INFO[getCurrentPhase()-1];
+  document.getElementById('phase-card-today').innerHTML=`<div class="phase-card ${info.cls}"><div class="phase-title">${info.title}</div><div class="phase-desc">${info.desc}</div></div>`;
+}
+
+function render(){renderPhaseCard();renderTodayGrid();renderTodayBanner();renderRec();renderDailyResetStatus();}
 loadData();
 </script>
 </body>
